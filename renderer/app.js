@@ -2,10 +2,13 @@
 
 // ── State ──────────────────────────────────────────────
 let currentDocType = 'srs'
+let currentLocale  = 'zh-TW'
+let lastPercentage = null
 let settings = {
   useLocalModel: false,
   modelUrl: 'http://localhost:11434',
-  modelName: 'llama3'
+  modelName: 'llama3',
+  language: 'zh-TW'
 }
 let scenariosData = null
 let currentScenario = null
@@ -16,6 +19,7 @@ const editor        = document.getElementById('editor')
 const charCount     = document.getElementById('char-count')
 const evaluateBtn   = document.getElementById('evaluate-btn')
 const docTypeLabel  = document.getElementById('doc-type-label')
+const langSelect    = document.getElementById('lang-select')
 
 const resultsEmpty   = document.getElementById('results-empty')
 const resultsLoading = document.getElementById('results-loading')
@@ -56,15 +60,42 @@ const modelUrlInput    = document.getElementById('model-url')
 const modelNameInput   = document.getElementById('model-name')
 const testResult       = document.getElementById('test-result')
 
-const docTabNames = { srs: 'SRS 規格書', 'ai-skill': 'AI Skill', 'system-design': '系統設計文件' }
+// ── i18n ───────────────────────────────────────────────
+function t(key) {
+  const locale = window.LOCALES[currentLocale] || window.LOCALES['zh-TW']
+  const val = locale[key]
+  return typeof val === 'string' ? val : (window.LOCALES['zh-TW'][key] ?? key)
+}
+
+function applyLocale() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const val = t(el.dataset.i18n)
+    if (typeof val === 'string') el.textContent = val
+  })
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const val = t(el.dataset.i18nPlaceholder)
+    if (typeof val === 'string') el.placeholder = val
+  })
+  langSelect.value = currentLocale
+  const docKey = `doc_type_label_${currentDocType.replace(/-/g, '_')}`
+  docTypeLabel.textContent = t(docKey)
+  updateCharCount()
+  if (lastPercentage !== null && !scoreSection.classList.contains('hidden')) {
+    scoreBarLabel.textContent = lastPercentage >= 70 ? t('score_label_good') : lastPercentage >= 40 ? t('score_label_fair') : t('score_label_poor')
+  }
+  if (!scenarioPanel.classList.contains('hidden') && currentScenario) {
+    renderScenario(currentScenario)
+  }
+}
 
 // ── Init ───────────────────────────────────────────────
 async function init() {
   const saved = await window.api.loadSettings()
   if (saved) Object.assign(settings, saved)
+  currentLocale = settings.language || 'zh-TW'
   applySettingsToUI()
   setupEvents()
-  updateCharCount()
+  applyLocale()
 }
 
 function applySettingsToUI() {
@@ -72,6 +103,7 @@ function applySettingsToUI() {
   modelUrlInput.value  = settings.modelUrl
   modelNameInput.value = settings.modelName
   modelSettingsDiv.classList.toggle('hidden', !settings.useLocalModel)
+  langSelect.value = currentLocale
 }
 
 // ── Events ─────────────────────────────────────────────
@@ -79,6 +111,14 @@ function setupEvents() {
   // Tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => switchDocType(btn.dataset.type))
+  })
+
+  // Language switcher
+  langSelect.addEventListener('change', () => {
+    currentLocale = langSelect.value
+    settings.language = currentLocale
+    window.api.saveSettings(settings)
+    applyLocale()
   })
 
   // Scenario panel
@@ -124,7 +164,8 @@ async function switchDocType(type) {
   document.querySelectorAll('.tab-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.type === type)
   })
-  docTypeLabel.textContent = docTabNames[type]
+  const docKey = `doc_type_label_${type.replace(/-/g, '_')}`
+  docTypeLabel.textContent = t(docKey)
   resetResults()
   if (!scenarioPanel.classList.contains('hidden')) {
     currentScenario = null
@@ -135,7 +176,7 @@ async function switchDocType(type) {
 
 // ── Editor helpers ─────────────────────────────────────
 function updateCharCount() {
-  charCount.textContent = `${editor.value.length} 字`
+  charCount.textContent = `${editor.value.length} ${t('editor_chars')}`
 }
 
 function clearEditor() {
@@ -165,6 +206,7 @@ function readDroppedFile(file) {
 
 // ── Results reset ──────────────────────────────────────
 function resetResults() {
+  lastPercentage = null
   resultsEmpty.classList.remove('hidden')
   resultsLoading.classList.add('hidden')
   scoreSection.classList.add('hidden')
@@ -245,21 +287,20 @@ function evaluateWithRules(text, rules) {
 
 // ── Render ─────────────────────────────────────────────
 function renderResults({ found, missing, warnings, percentage }) {
-  // Score circle
-  const circumference = 2 * Math.PI * 40  // r=40 → 251.2
+  lastPercentage = percentage
+  const circumference = 2 * Math.PI * 40
   const offset = circumference * (1 - percentage / 100)
   scoreArc.style.strokeDashoffset = offset
   scoreArc.style.stroke = percentage >= 70 ? 'var(--success)' : percentage >= 40 ? 'var(--warning)' : 'var(--error)'
   scoreValue.textContent = percentage
   scoreBarFill.style.width = percentage + '%'
   scoreBarFill.style.background = percentage >= 70 ? 'var(--success)' : percentage >= 40 ? 'var(--warning)' : 'var(--error)'
-  scoreBarLabel.textContent = percentage >= 70 ? '良好' : percentage >= 40 ? '待改善' : '需加強'
+  scoreBarLabel.textContent = percentage >= 70 ? t('score_label_good') : percentage >= 40 ? t('score_label_fair') : t('score_label_poor')
   foundCount.textContent   = found.length
   missingCount.textContent = missing.length
   warningCount.textContent = warnings.length
   scoreSection.classList.remove('hidden')
 
-  // Missing
   if (missing.length > 0) {
     missingList.innerHTML = ''
     missing.forEach(s => {
@@ -268,7 +309,7 @@ function renderResults({ found, missing, warnings, percentage }) {
       div.innerHTML = `
         <div class="item-header">
           <span class="item-name">${s.name}</span>
-          ${s.required ? '<span class="required-badge">必要</span>' : ''}
+          ${s.required ? `<span class="required-badge">${t('badge_required')}</span>` : ''}
         </div>
         <div class="item-desc">${s.description}</div>
         <div class="item-hint">&#128161; ${s.hint}</div>
@@ -278,7 +319,6 @@ function renderResults({ found, missing, warnings, percentage }) {
     missingSection.classList.remove('hidden')
   }
 
-  // Warnings
   if (warnings.length > 0) {
     warningsList.innerHTML = ''
     warnings.forEach(w => {
@@ -293,7 +333,6 @@ function renderResults({ found, missing, warnings, percentage }) {
     warningsSection.classList.remove('hidden')
   }
 
-  // Found
   if (found.length > 0) {
     foundList.innerHTML = ''
     found.forEach(s => {
@@ -336,62 +375,63 @@ async function pickRandomScenario() {
 
 function renderScenario(scenario) {
   if (!scenario) return
-  const docLabels = { srs: 'SRS 規格書', 'ai-skill': 'AI Skill', 'system-design': '系統設計' }
+  const badgeKeys = { srs: 'scenario_badge_srs', 'ai-skill': 'scenario_badge_ai_skill', 'system-design': 'scenario_badge_system_design' }
   const starsMap  = { 1: '★☆☆', 2: '★★☆', 3: '★★★' }
 
-  scenarioBadge.textContent     = docLabels[currentDocType] || currentDocType
-  scenarioStars.textContent     = starsMap[scenario.difficulty] || '★☆☆'
-  scenarioTitleText.textContent = scenario.title
-  scenarioDesc.textContent      = scenario.scenario
+  scenarioBadge.textContent = t(badgeKeys[currentDocType] || 'scenario_badge_srs')
+  scenarioStars.textContent = starsMap[scenario.difficulty] || '★☆☆'
+
+  const getField = (field) => {
+    if (scenario._lang !== undefined) return scenario[field] ?? ''
+    const val = scenario[field]
+    if (val && typeof val === 'object') return val[currentLocale] ?? val['zh-TW'] ?? ''
+    return val ?? ''
+  }
+
+  scenarioTitleText.textContent = getField('title')
+  scenarioDesc.textContent      = getField('scenario')
 
   scenarioReqs.innerHTML = ''
-  scenario.requirements.forEach(req => {
+  const reqs = getField('requirements')
+  ;(Array.isArray(reqs) ? reqs : []).forEach(req => {
     const li = document.createElement('li')
     li.textContent = req
     scenarioReqs.appendChild(li)
   })
 
   scenarioHintsList.innerHTML = ''
-  scenario.hints.forEach(hint => {
+  const hints = getField('hints')
+  ;(Array.isArray(hints) ? hints : []).forEach(hint => {
     const li = document.createElement('li')
     li.textContent = hint
     scenarioHintsList.appendChild(li)
   })
 
+  document.querySelector('#scenario-reqs-wrap .sc-section-title').textContent = t('scenario_req_title')
+  document.querySelector('#scenario-hints-wrap .sc-section-title').textContent = t('scenario_hints_title')
+
   scenarioHintsVisible = false
   scenarioHintsWrap.classList.add('hidden')
-  document.getElementById('scenario-hint-btn').textContent = '💡 提示'
+  document.getElementById('scenario-hint-btn').textContent = t('scenario_btn_hint')
 }
 
 function toggleScenarioHints() {
   scenarioHintsVisible = !scenarioHintsVisible
   scenarioHintsWrap.classList.toggle('hidden', !scenarioHintsVisible)
   document.getElementById('scenario-hint-btn').textContent =
-    scenarioHintsVisible ? '💡 收起提示' : '💡 提示'
+    scenarioHintsVisible ? t('scenario_btn_hint_close') : t('scenario_btn_hint')
 }
 
 async function generateAIScenario() {
   if (!settings.useLocalModel) return
-  const docLabels = { srs: 'SRS 規格書', 'ai-skill': 'AI Skill 技術文件', 'system-design': '系統設計文件' }
-  const typeName  = docLabels[currentDocType] || currentDocType
-
-  const prompt = `你是一位資深軟體工程師和技術面試官。請用繁體中文為「${typeName}」生成一道全新的情境練習題目。
-
-請完全按照以下格式回答（不要有其他多餘內容）：
-標題：[簡短的系統名稱，2-6個字]
-難度：[初級/中級/高級]
-情境：
-[2-3段描述，包含業務背景、規模數據、技術挑戰]
-需求：
-- [具體需求1]
-- [具體需求2]
-- [具體需求3]
-- [具體需求4]
-- [具體需求5]
-提示：
-- [撰寫文件的具體提示1]
-- [撰寫文件的具體提示2]
-- [撰寫文件的具體提示3]`
+  const docTypeNames = {
+    srs: t('doc_type_label_srs'),
+    'ai-skill': t('doc_type_label_ai_skill'),
+    'system-design': t('doc_type_label_system_design')
+  }
+  const typeName = docTypeNames[currentDocType] || currentDocType
+  const locale   = window.LOCALES[currentLocale] || window.LOCALES['zh-TW']
+  const prompt   = locale.ai_gen_prompt(typeName)
 
   scenarioGenLoading.classList.remove('hidden')
   scenarioAiBtn.disabled = true
@@ -410,20 +450,22 @@ async function generateAIScenario() {
 }
 
 function parseAIScenario(text) {
+  const locale = window.LOCALES[currentLocale] || window.LOCALES['zh-TW']
+  const p = locale.ai_parse
   try {
-    const titleMatch    = text.match(/標題[：:]\s*(.+)/)
-    const diffMatch     = text.match(/難度[：:]\s*(.+)/)
-    const scenarioMatch = text.match(/情境[：:]\s*\n([\s\S]+?)(?=\n需求[：:]|\n提示[：:]|$)/)
-    const reqsMatch     = text.match(/需求[：:]\s*\n([\s\S]+?)(?=\n提示[：:]|$)/)
-    const hintsMatch    = text.match(/提示[：:]\s*\n([\s\S]+?)$/)
-    const diffMap       = { '初級': 1, '中級': 2, '高級': 3 }
+    const titleMatch    = text.match(p.title)
+    const diffMatch     = text.match(p.diff)
+    const scenarioMatch = text.match(p.scenario)
+    const reqsMatch     = text.match(p.reqs)
+    const hintsMatch    = text.match(p.hints)
     const parseList     = str => str
       ? str.split('\n').map(l => l.replace(/^[-•*]\s*/, '').trim()).filter(l => l.length > 0)
       : []
     return {
       id: `ai-${Date.now()}`,
-      title: titleMatch?.[1]?.trim() || 'AI 生成題目',
-      difficulty: diffMap[diffMatch?.[1]?.trim()] || 2,
+      _lang: currentLocale,
+      title: titleMatch?.[1]?.trim() || t('scenario_ai_title'),
+      difficulty: p.diffMap[diffMatch?.[1]?.trim()] || 2,
       scenario: scenarioMatch?.[1]?.trim() || text.substring(0, 300),
       requirements: parseList(reqsMatch?.[1]),
       hints: parseList(hintsMatch?.[1])
@@ -435,7 +477,7 @@ function parseAIScenario(text) {
 
 // ── Local Model ────────────────────────────────────────
 async function callLocalModel(text, promptTemplate) {
-  const prompt = (promptTemplate || '請評論以下文件，用繁體中文回答：\n') + text
+  const prompt = (promptTemplate || t('ai_prompt_default')) + text
   try {
     const res = await fetch(`${settings.modelUrl}/api/generate`, {
       method: 'POST',
@@ -444,9 +486,9 @@ async function callLocalModel(text, promptTemplate) {
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data = await res.json()
-    return data.response || '（模型未回傳內容）'
+    return data.response || t('ai_no_response')
   } catch (err) {
-    return `無法連接本地模型：${err.message}\n\n請確認 Ollama 已啟動，且模型名稱正確。`
+    return `${t('ai_no_connect')}：${err.message}\n\n${t('ai_check_ollama')}`
   }
 }
 
@@ -462,8 +504,9 @@ function closeSettings() { settingsOverlay.classList.add('hidden') }
 
 async function saveSettings() {
   settings.useLocalModel = useLocalModelChk.checked
-  settings.modelUrl = modelUrlInput.value.trim() || 'http://localhost:11434'
+  settings.modelUrl  = modelUrlInput.value.trim() || 'http://localhost:11434'
   settings.modelName = modelNameInput.value.trim() || 'llama3'
+  settings.language  = currentLocale
   await window.api.saveSettings(settings)
   if (!scenarioPanel.classList.contains('hidden')) {
     scenarioAiBtn.classList.toggle('hidden', !settings.useLocalModel)
@@ -474,7 +517,7 @@ async function saveSettings() {
 async function testModelConnection() {
   const url  = modelUrlInput.value.trim()
   const name = modelNameInput.value.trim()
-  testResult.textContent = '測試中...'
+  testResult.textContent = t('settings_testing')
   testResult.className = ''
   try {
     const res = await fetch(`${url}/api/generate`, {
@@ -483,10 +526,10 @@ async function testModelConnection() {
       body: JSON.stringify({ model: name, prompt: 'hi', stream: false })
     })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    testResult.textContent = '連線成功 ✓'
+    testResult.textContent = t('settings_test_ok')
     testResult.className = 'ok'
   } catch (err) {
-    testResult.textContent = `連線失敗：${err.message}`
+    testResult.textContent = `${t('settings_test_fail')}：${err.message}`
     testResult.className = 'err'
   }
 }

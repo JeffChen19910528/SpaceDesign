@@ -2,169 +2,493 @@
   "srs": [
     {
       "id": "srs-001",
-      "title": "線上書店系統",
       "difficulty": 1,
-      "scenario": "你加入了一家新創公司，負責開發一套線上書店平台。PM 提供了基本的 wireframe，希望你撰寫完整的 SRS 規格書，讓前後端工程師可以依此進行開發。\n\n平台的主要功能包括：使用者可以瀏覽與搜尋書籍、加入購物車、完成結帳，以及查看訂單歷程。書籍資訊由管理員後台維護。",
-      "requirements": [
-        "使用者可以用關鍵字、分類、作者搜尋書籍",
-        "購物車需支援未登入時的暫存，登入後自動合併",
-        "支援信用卡一次付清及貨到付款兩種付款方式",
-        "訂單狀態需有「待付款 → 處理中 → 已出貨 → 已完成」流程",
-        "管理員可以上下架書籍並管理庫存"
-      ],
-      "hints": [
-        "SRS 應定義所有角色（訪客、會員、管理員）及其使用案例",
-        "非功能需求別忘了：搜尋回應時間 < 1 秒、最大同時在線 500 人",
-        "API 規格至少要定義：登入、商品列表、購物車 CRUD、建立訂單等端點"
-      ]
+      "title": {
+        "zh-TW": "線上書店系統",
+        "en": "Online Bookstore System",
+        "ja": "オンライン書店システム"
+      },
+      "scenario": {
+        "zh-TW": "你加入了一家新創公司，負責開發一套線上書店平台。PM 提供了基本的 wireframe，希望你撰寫完整的 SRS 規格書，讓前後端工程師可以依此進行開發。\n\n平台的主要功能包括：使用者可以瀏覽與搜尋書籍、加入購物車、完成結帳，以及查看訂單歷程。書籍資訊由管理員後台維護。",
+        "en": "You've joined a startup and are tasked with building an online bookstore platform. The PM has provided initial wireframes, and you need to write a complete SRS so that the frontend and backend engineers can develop from it.\n\nThe platform's main features: users can browse and search books, add to cart, check out, and view order history. Book information is managed via an admin dashboard.",
+        "ja": "あなたはスタートアップに参加し、オンライン書店プラットフォームの開発を担当しています。PM が初期ワイヤーフレームを提供しており、フロントエンドとバックエンドのエンジニアが開発に使えるよう、完全な SRS 仕様書を作成する必要があります。\n\nプラットフォームの主な機能：ユーザーが本を閲覧・検索し、カートに追加し、チェックアウトし、注文履歴を確認できること。本の情報は管理者ダッシュボードで管理されます。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "使用者可以用關鍵字、分類、作者搜尋書籍",
+          "購物車需支援未登入時的暫存，登入後自動合併",
+          "支援信用卡一次付清及貨到付款兩種付款方式",
+          "訂單狀態需有「待付款 → 處理中 → 已出貨 → 已完成」流程",
+          "管理員可以上下架書籍並管理庫存"
+        ],
+        "en": [
+          "Users can search books by keyword, category, or author",
+          "Shopping cart persists for guests and automatically merges with account on login",
+          "Supports credit card (full payment) and cash-on-delivery payment methods",
+          "Order status flow: Pending Payment → Processing → Shipped → Completed",
+          "Admins can list/unlist books and manage inventory"
+        ],
+        "ja": [
+          "ユーザーがキーワード・カテゴリ・著者で本を検索できること",
+          "カートは未ログイン時でも保存され、ログイン後に自動でマージされること",
+          "クレジットカード一括払いと代金引換の 2 種類の支払い方法に対応すること",
+          "注文ステータスフロー：支払い待ち → 処理中 → 発送済み → 完了",
+          "管理者が本の公開・非公開を切り替え、在庫を管理できること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "SRS 應定義所有角色（訪客、會員、管理員）及其使用案例",
+          "非功能需求別忘了：搜尋回應時間 < 1 秒、最大同時在線 500 人",
+          "API 規格至少要定義：登入、商品列表、購物車 CRUD、建立訂單等端點"
+        ],
+        "en": [
+          "SRS should define all roles (guest, member, admin) and their use cases",
+          "Don't forget non-functional requirements: search response < 1s, max 500 concurrent users",
+          "API spec should cover at minimum: login, product list, cart CRUD, and create order endpoints"
+        ],
+        "ja": [
+          "SRS ではすべてのロール（ゲスト・会員・管理者）とそのユースケースを定義すること",
+          "非機能要件を忘れずに：検索応答時間 < 1 秒、最大同時接続 500 人",
+          "API 仕様には最低限：ログイン・商品一覧・カート CRUD・注文作成のエンドポイントを定義すること"
+        ]
+      }
     },
     {
       "id": "srs-002",
-      "title": "外賣訂餐平台訂單模組",
       "difficulty": 2,
-      "scenario": "你的團隊正在為一家外賣平台開發「訂單管理模組」。此模組涉及三個端：消費者 App、餐廳後台、外送員 App，彼此需要即時同步訂單狀態。\n\n業務目標：在尖峰時段（午餐 12:00–13:00）每分鐘處理超過 1,000 筆訂單，並保證訂單不遺失、狀態最終一致。",
-      "requirements": [
-        "訂單狀態機：下單 → 餐廳確認 → 備餐中 → 等待取餐 → 配送中 → 已送達 / 取消",
-        "狀態變更需在 3 秒內推送到所有相關端（消費者、餐廳、外送員）",
-        "消費者可在「餐廳確認前」取消訂單，取消後自動退款",
-        "每筆訂單需記錄完整的狀態變更歷程（含時間戳）",
-        "外送員接單後，消費者可即時追蹤外送員位置（每 10 秒更新一次）"
-      ],
-      "hints": [
-        "狀態機要畫出來，並說明每個狀態轉換的觸發條件與前置條件",
-        "即時推送建議使用 WebSocket 或 SSE，需在規格書中說明技術選型理由",
-        "退款流程要定義逾時處理（例如：支付閘道無回應時的補償機制）"
-      ]
+      "title": {
+        "zh-TW": "外賣訂餐平台訂單模組",
+        "en": "Food Delivery Order Module",
+        "ja": "フードデリバリー注文モジュール"
+      },
+      "scenario": {
+        "zh-TW": "你的團隊正在為一家外賣平台開發「訂單管理模組」。此模組涉及三個端：消費者 App、餐廳後台、外送員 App，彼此需要即時同步訂單狀態。\n\n業務目標：在尖峰時段（午餐 12:00–13:00）每分鐘處理超過 1,000 筆訂單，並保證訂單不遺失、狀態最終一致。",
+        "en": "Your team is building an \"Order Management Module\" for a food delivery platform. The module spans three clients: a consumer app, a restaurant dashboard, and a delivery app — all needing real-time order state synchronization.\n\nBusiness goal: handle over 1,000 orders per minute during peak hours (lunch 12:00–13:00) with guaranteed delivery and eventual consistency.",
+        "ja": "あなたのチームはフードデリバリープラットフォームの「注文管理モジュール」を開発しています。このモジュールは、消費者アプリ・レストランダッシュボード・配達員アプリの 3 つのクライアントにまたがり、リアルタイムで注文状態を同期する必要があります。\n\nビジネス目標：ピーク時（昼食 12:00〜13:00）に 1 分あたり 1,000 件以上の注文を処理し、注文の損失なし・最終的な整合性を保証すること。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "訂單狀態機：下單 → 餐廳確認 → 備餐中 → 等待取餐 → 配送中 → 已送達 / 取消",
+          "狀態變更需在 3 秒內推送到所有相關端（消費者、餐廳、外送員）",
+          "消費者可在「餐廳確認前」取消訂單，取消後自動退款",
+          "每筆訂單需記錄完整的狀態變更歷程（含時間戳）",
+          "外送員接單後，消費者可即時追蹤外送員位置（每 10 秒更新一次）"
+        ],
+        "en": [
+          "Order state machine: Placed → Restaurant Confirmed → Preparing → Awaiting Pickup → Delivering → Delivered / Cancelled",
+          "State changes must be pushed to all relevant clients within 3 seconds",
+          "Consumers can cancel before restaurant confirmation; cancellation triggers automatic refund",
+          "Each order must log a full state-change history with timestamps",
+          "After driver accepts order, consumers can track driver location updated every 10 seconds"
+        ],
+        "ja": [
+          "注文ステートマシン：注文確定 → レストラン確認 → 調理中 → 受け取り待ち → 配達中 → 配達完了 / キャンセル",
+          "状態変更は 3 秒以内に関連するすべてのクライアントにプッシュされること",
+          "消費者は「レストランが確認する前」に注文をキャンセルでき、キャンセル後は自動返金されること",
+          "各注文はタイムスタンプを含む完全な状態変更履歴を記録すること",
+          "ドライバーが注文を受諾後、消費者はドライバーの位置をリアルタイムで追跡できること（10 秒ごとに更新）"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "狀態機要畫出來，並說明每個狀態轉換的觸發條件與前置條件",
+          "即時推送建議使用 WebSocket 或 SSE，需在規格書中說明技術選型理由",
+          "退款流程要定義逾時處理（例如：支付閘道無回應時的補償機制）"
+        ],
+        "en": [
+          "Draw the state machine diagram and explain each transition's trigger and precondition",
+          "Real-time push: include WebSocket vs. SSE tradeoffs and justify your choice in the spec",
+          "Define timeout handling for the refund flow (e.g., compensation when payment gateway is unresponsive)"
+        ],
+        "ja": [
+          "ステートマシン図を描き、各状態遷移のトリガーと前提条件を説明すること",
+          "リアルタイムプッシュには WebSocket または SSE を推奨し、仕様書で技術選定の理由を述べること",
+          "返金フローのタイムアウト処理を定義すること（例：決済ゲートウェイが応答しない場合の補償メカニズム）"
+        ]
+      }
     },
     {
       "id": "srs-003",
-      "title": "企業請假暨差勤系統",
       "difficulty": 3,
-      "scenario": "你的公司要將紙本請假流程數位化，開發一套企業內部的請假暨差勤管理系統。HR 部門提出了複雜的業務規則：不同員工等級有不同假別額度、多層主管審核、跨年度假別結轉，以及與薪資系統的整合需求。\n\n系統需支援 500 名員工同時使用，並對接現有的 AD（Active Directory）進行單一登入。",
-      "requirements": [
-        "支援 8 種假別（特休、病假、事假、婚假、陪產假、公傷假、喪假、補休），各有不同計算規則",
-        "請假流程：員工申請 → 直屬主管審核 → 部門主管審核（3 天以上）→ HR 確認",
-        "特休餘額按年資自動計算，可跨年結轉，上限 5 天",
-        "需提供月報表：各部門出勤率、假別使用統計，可匯出 Excel",
-        "與薪資系統（外部 API）整合，自動扣除無薪假日的薪資"
-      ],
-      "hints": [
-        "假別計算規則極其複雜，建議用表格列出每種假別的：計算單位、是否帶薪、申請期限、附件要求",
-        "多層審核需定義逾時的自動處理（例如：48 小時未處理自動升級或核准）",
-        "外部 API 整合需定義資料格式、同步頻率、失敗重試機制"
-      ]
+      "title": {
+        "zh-TW": "企業請假暨差勤系統",
+        "en": "Employee Leave & Attendance System",
+        "ja": "企業休暇・勤怠管理システム"
+      },
+      "scenario": {
+        "zh-TW": "你的公司要將紙本請假流程數位化，開發一套企業內部的請假暨差勤管理系統。HR 部門提出了複雜的業務規則：不同員工等級有不同假別額度、多層主管審核、跨年度假別結轉，以及與薪資系統的整合需求。\n\n系統需支援 500 名員工同時使用，並對接現有的 AD（Active Directory）進行單一登入。",
+        "en": "Your company is digitizing its paper-based leave process by building an internal leave and attendance management system. HR has introduced complex business rules: different leave quotas per employee grade, multi-tier approval, year-end carry-over, and payroll integration.\n\nThe system must support 500 concurrent employees and integrate with the existing Active Directory for single sign-on.",
+        "ja": "あなたの会社は、紙ベースの休暇申請プロセスをデジタル化するため、社内の休暇・勤怠管理システムを開発しています。HR 部門から複雑なビジネスルールが提示されています：社員等級ごとに異なる休暇日数・多段階承認・年度またぎの繰り越し・給与システムとの連携。\n\nシステムは 500 名の社員が同時に利用でき、既存の Active Directory によるシングルサインオンに対応する必要があります。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "支援 8 種假別（特休、病假、事假、婚假、陪產假、公傷假、喪假、補休），各有不同計算規則",
+          "請假流程：員工申請 → 直屬主管審核 → 部門主管審核（3 天以上）→ HR 確認",
+          "特休餘額按年資自動計算，可跨年結轉，上限 5 天",
+          "需提供月報表：各部門出勤率、假別使用統計，可匯出 Excel",
+          "與薪資系統（外部 API）整合，自動扣除無薪假日的薪資"
+        ],
+        "en": [
+          "Support 8 leave types (annual, sick, personal, marriage, paternity, work injury, bereavement, compensatory), each with different calculation rules",
+          "Approval flow: Employee → Direct Manager → Department Head (for 3+ days) → HR Confirmation",
+          "Annual leave balance auto-calculated by seniority; carry-over allowed with a 5-day cap",
+          "Monthly reports: department attendance rate, leave-type usage statistics, exportable to Excel",
+          "Integrate with payroll system (external API) to auto-deduct unpaid leave days"
+        ],
+        "ja": [
+          "8 種類の休暇（有給・病気・私用・結婚・育児・労災・忌引・代休）をサポートし、それぞれ異なる計算ルールを持つこと",
+          "申請フロー：社員 → 直属の上司 → 部門長（3 日以上）→ HR 確認",
+          "有給休暇残高は勤続年数に基づいて自動計算され、年度またぎ繰り越しは最大 5 日まで可能",
+          "月次レポート：部門別出勤率・休暇種別使用統計（Excel エクスポート対応）",
+          "給与システム（外部 API）と連携し、無給休暇日の給与を自動控除すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "假別計算規則極其複雜，建議用表格列出每種假別的：計算單位、是否帶薪、申請期限、附件要求",
+          "多層審核需定義逾時的自動處理（例如：48 小時未處理自動升級或核准）",
+          "外部 API 整合需定義資料格式、同步頻率、失敗重試機制"
+        ],
+        "en": [
+          "Leave calculation rules are complex — use a table listing each type's: unit, paid status, deadline, and required attachments",
+          "Multi-tier approval needs timeout auto-handling (e.g., auto-escalate or auto-approve if untouched for 48 hours)",
+          "External API integration must specify data format, sync frequency, and retry-on-failure strategy"
+        ],
+        "ja": [
+          "休暇計算ルールは非常に複雑なため、各休暇種別の計算単位・有給/無給・申請期限・必要書類を表形式でまとめること",
+          "多段階承認では、タイムアウト時の自動処理を定義すること（例：48 時間未対応の場合は自動でエスカレーションまたは承認）",
+          "外部 API 連携では、データフォーマット・同期頻度・失敗時のリトライ戦略を定義すること"
+        ]
+      }
     }
   ],
   "ai-skill": [
     {
       "id": "ai-001",
-      "title": "客服問答機器人",
       "difficulty": 1,
-      "scenario": "你的公司提供 SaaS 產品，客服部門每天處理大量重複性問題（帳號設定、付款問題、功能操作）。你被指派設計一個 AI Skill，讓客服機器人能自動回答這類問題，並在無法解決時轉接真人客服。\n\n知識庫來源：產品 FAQ 文件（約 200 頁 PDF）、已解決的歷史工單。",
-      "requirements": [
-        "能理解使用者問題的意圖，即使措辭不標準（例如：「我忘記密碼」= 重設密碼流程）",
-        "回答需引用來源（指出是 FAQ 的哪一個章節）",
-        "當信心度低於 80% 時，主動詢問使用者補充資訊或轉接真人",
-        "支援多輪對話，記住同一 session 中的上下文",
-        "每週自動從新增工單中學習，更新知識庫"
-      ],
-      "hints": [
-        "AI Skill 要定義 Input Schema（使用者訊息、session_id、歷史對話）和 Output Schema（回答、來源、信心度、is_escalate）",
-        "知識庫更新策略要說明 RAG 的 chunk 大小、embedding model 選擇理由",
-        "描述如何評估品質：precision/recall、首次解決率（FCR）等指標"
-      ]
+      "title": {
+        "zh-TW": "客服問答機器人",
+        "en": "Customer Service Chatbot",
+        "ja": "カスタマーサービス Q&A ボット"
+      },
+      "scenario": {
+        "zh-TW": "你的公司提供 SaaS 產品，客服部門每天處理大量重複性問題（帳號設定、付款問題、功能操作）。你被指派設計一個 AI Skill，讓客服機器人能自動回答這類問題，並在無法解決時轉接真人客服。\n\n知識庫來源：產品 FAQ 文件（約 200 頁 PDF）、已解決的歷史工單。",
+        "en": "Your company offers a SaaS product, and the support team handles a high volume of repetitive questions daily (account setup, billing issues, feature usage). You're assigned to design an AI Skill so a chatbot can automatically answer these questions and escalate to a human agent when it can't resolve the issue.\n\nKnowledge base sources: product FAQ documents (~200-page PDF) and resolved historical tickets.",
+        "ja": "あなたの会社は SaaS 製品を提供しており、サポートチームは毎日大量の繰り返し質問（アカウント設定・支払い問題・機能の使い方）を処理しています。チャットボットがこれらの質問に自動的に回答し、解決できない場合は人間のエージェントにエスカレーションできるよう、AI Skill を設計するよう指示されました。\n\n知識ベースのソース：製品 FAQ ドキュメント（約 200 ページの PDF）・解決済みの過去のサポートチケット。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "能理解使用者問題的意圖，即使措辭不標準（例如：「我忘記密碼」= 重設密碼流程）",
+          "回答需引用來源（指出是 FAQ 的哪一個章節）",
+          "當信心度低於 80% 時，主動詢問使用者補充資訊或轉接真人",
+          "支援多輪對話，記住同一 session 中的上下文",
+          "每週自動從新增工單中學習，更新知識庫"
+        ],
+        "en": [
+          "Understand user intent even with non-standard phrasing (e.g., \"I forgot my password\" = reset password flow)",
+          "Responses must cite the source (specify which FAQ section)",
+          "When confidence is below 80%, proactively ask for clarification or escalate to a human agent",
+          "Support multi-turn conversation, maintaining context within the same session",
+          "Automatically learn from new tickets weekly to keep the knowledge base up to date"
+        ],
+        "ja": [
+          "非標準的な言い回しでもユーザーの意図を理解できること（例：「パスワードを忘れた」＝パスワードリセットフロー）",
+          "回答にはソースを引用すること（FAQ のどのセクションかを明示）",
+          "信頼度が 80% 未満の場合、積極的に補足情報を求めるか人間のエージェントにエスカレーションすること",
+          "マルチターンの会話をサポートし、同一セッション内でコンテキストを保持すること",
+          "毎週新しいチケットから自動的に学習し、知識ベースを更新すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "AI Skill 要定義 Input Schema（使用者訊息、session_id、歷史對話）和 Output Schema（回答、來源、信心度、is_escalate）",
+          "知識庫更新策略要說明 RAG 的 chunk 大小、embedding model 選擇理由",
+          "描述如何評估品質：precision/recall、首次解決率（FCR）等指標"
+        ],
+        "en": [
+          "Define Input Schema (user message, session_id, conversation history) and Output Schema (answer, source, confidence, is_escalate)",
+          "Knowledge base update strategy: explain RAG chunk size and embedding model selection rationale",
+          "Describe quality evaluation metrics: precision/recall, first contact resolution rate (FCR), etc."
+        ],
+        "ja": [
+          "Input Schema（ユーザーメッセージ・session_id・会話履歴）と Output Schema（回答・ソース・信頼度・is_escalate）を定義すること",
+          "知識ベース更新戦略：RAG のチャンクサイズと埋め込みモデルの選定理由を説明すること",
+          "品質評価指標の説明：precision/recall・初回解決率（FCR）などの指標"
+        ]
+      }
     },
     {
       "id": "ai-002",
-      "title": "智慧合約審閱助手",
       "difficulty": 2,
-      "scenario": "一家法律科技公司委託你設計一個 AI Skill，協助法務人員快速審閱採購合約。合約文件長度從 5 頁到 200 頁不等，格式多樣（Word、PDF、掃描版）。\n\n助手需要識別合約中的風險條款、缺失條款、並與公司的標準範本進行比對，最後產出審閱報告。",
-      "requirements": [
-        "支援 PDF（含掃描版 OCR）、Word 文件輸入",
-        "識別 12 種高風險條款類型（例如：單方解約權、無限賠償責任、智財權轉讓）",
-        "與標準範本比對，標出新增、修改、刪除的條款",
-        "產出結構化審閱報告：風險等級（高/中/低）、問題條款位置、修改建議",
-        "法務人員可標記誤判，系統記錄反饋用於未來改善"
-      ],
-      "hints": [
-        "文件前處理（OCR、格式正規化）是關鍵，需在 Skill 文件中說明 pipeline",
-        "12 種風險條款要給出定義和範例，讓 LLM 有明確的分類依據",
-        "Output Schema 要包含段落位置資訊，方便 UI 高亮顯示風險條款"
-      ]
+      "title": {
+        "zh-TW": "智慧合約審閱助手",
+        "en": "Smart Contract Review Assistant",
+        "ja": "スマート契約審査アシスタント"
+      },
+      "scenario": {
+        "zh-TW": "一家法律科技公司委託你設計一個 AI Skill，協助法務人員快速審閱採購合約。合約文件長度從 5 頁到 200 頁不等，格式多樣（Word、PDF、掃描版）。\n\n助手需要識別合約中的風險條款、缺失條款、並與公司的標準範本進行比對，最後產出審閱報告。",
+        "en": "A legal tech company has commissioned you to design an AI Skill that helps legal teams quickly review procurement contracts. Contract documents range from 5 to 200 pages in varied formats (Word, PDF, scanned copies).\n\nThe assistant must identify risky clauses and missing clauses, compare against the company's standard template, and produce a structured review report.",
+        "ja": "リーガルテック企業から、法務担当者が調達契約を迅速に審査できる AI Skill の設計を依頼されました。契約書は 5 ページから 200 ページまで、Word・PDF・スキャン版など様々な形式があります。\n\nアシスタントは契約書内のリスク条項・欠落条項を識別し、会社の標準テンプレートと比較して、構造化された審査レポートを作成する必要があります。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "支援 PDF（含掃描版 OCR）、Word 文件輸入",
+          "識別 12 種高風險條款類型（例如：單方解約權、無限賠償責任、智財權轉讓）",
+          "與標準範本比對，標出新增、修改、刪除的條款",
+          "產出結構化審閱報告：風險等級（高/中/低）、問題條款位置、修改建議",
+          "法務人員可標記誤判，系統記錄反饋用於未來改善"
+        ],
+        "en": [
+          "Accept PDF (including scanned OCR) and Word document inputs",
+          "Identify 12 types of high-risk clauses (e.g., unilateral termination rights, unlimited liability, IP ownership transfer)",
+          "Compare against standard template and highlight added, modified, and deleted clauses",
+          "Produce structured review report: risk level (High/Medium/Low), clause location, and revision suggestions",
+          "Allow legal staff to flag false positives; system records feedback for future improvement"
+        ],
+        "ja": [
+          "PDF（スキャン版 OCR を含む）と Word ドキュメントの入力をサポートすること",
+          "12 種類の高リスク条項（例：一方的解約権・無限損害賠償・知財権の譲渡）を識別すること",
+          "標準テンプレートと比較し、追加・変更・削除された条項をハイライトすること",
+          "構造化された審査レポートを作成：リスクレベル（高/中/低）・条項の位置・修正提案",
+          "法務担当者が誤検知をフラグできるようにし、システムが将来の改善のためにフィードバックを記録すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "文件前處理（OCR、格式正規化）是關鍵，需在 Skill 文件中說明 pipeline",
+          "12 種風險條款要給出定義和範例，讓 LLM 有明確的分類依據",
+          "Output Schema 要包含段落位置資訊，方便 UI 高亮顯示風險條款"
+        ],
+        "en": [
+          "Document pre-processing (OCR, format normalization) is critical — describe the full pipeline in your Skill doc",
+          "Provide definitions and examples for all 12 risk clause types so the LLM has a clear classification basis",
+          "Output Schema should include paragraph location info to enable UI highlighting of risk clauses"
+        ],
+        "ja": [
+          "ドキュメント前処理（OCR・フォーマット正規化）が重要です — Skill ドキュメントでパイプライン全体を説明すること",
+          "LLM が明確な分類根拠を持てるよう、12 種類のリスク条項すべての定義と例を提供すること",
+          "Output Schema にはリスク条項の UI ハイライトを可能にするための段落位置情報を含めること"
+        ]
+      }
     },
     {
       "id": "ai-003",
-      "title": "多代理人資料分析系統",
       "difficulty": 3,
-      "scenario": "你的數據平台團隊要開發一套 AI Skill，讓業務人員可以用自然語言查詢公司的銷售資料庫，系統自動完成：SQL 生成、執行、資料視覺化、以及洞察摘要，整個流程由多個 Agent 協作完成。\n\n資料庫包含：訂單、客戶、產品、庫存 4 張主要資料表，每張約 1,000 萬筆記錄。",
-      "requirements": [
-        "自然語言轉 SQL，需正確處理時間範圍（「上個月」「Q3」）、複雜聚合、多表 JOIN",
-        "SQL 執行前需進行安全檢查（禁止 DDL、限制查詢筆數上限 10,000 筆）",
-        "根據資料類型自動選擇圖表類型（時序→折線圖、比例→圓餅圖、比較→長條圖）",
-        "若查詢模糊，應先向使用者澄清（例如：「你說的『業績』是指訂單金額還是毛利？」）",
-        "產出包含 SQL 查詢、執行結果、視覺化圖表、3 條關鍵洞察的分析報告"
-      ],
-      "hints": [
-        "多代理人架構要說明每個 Agent 的職責分工（NL2SQL、Validator、Visualization、Insight）",
-        "Text2SQL 品質評估需說明測試集設計方法（execution accuracy vs. match accuracy）",
-        "安全模型要說明如何防止 SQL injection，以及敏感欄位的遮蔽策略"
-      ]
+      "title": {
+        "zh-TW": "多代理人資料分析系統",
+        "en": "Multi-Agent Data Analysis System",
+        "ja": "マルチエージェントデータ分析システム"
+      },
+      "scenario": {
+        "zh-TW": "你的數據平台團隊要開發一套 AI Skill，讓業務人員可以用自然語言查詢公司的銷售資料庫，系統自動完成：SQL 生成、執行、資料視覺化、以及洞察摘要，整個流程由多個 Agent 協作完成。\n\n資料庫包含：訂單、客戶、產品、庫存 4 張主要資料表，每張約 1,000 萬筆記錄。",
+        "en": "Your data platform team is developing an AI Skill that lets business users query the company's sales database in natural language. The system automatically handles SQL generation, execution, data visualization, and insight summarization — with the entire flow coordinated by multiple agents.\n\nThe database contains 4 main tables: orders, customers, products, and inventory, each with approximately 10 million records.",
+        "ja": "あなたのデータプラットフォームチームは、ビジネスユーザーが自然言語で会社の販売データベースを照会できる AI Skill を開発しています。システムは SQL 生成・実行・データ可視化・インサイト要約を自動的に処理し、フロー全体は複数のエージェントが協力して担当します。\n\nデータベースには注文・顧客・製品・在庫の 4 つのメインテーブルがあり、それぞれ約 1,000 万件のレコードを持ちます。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "自然語言轉 SQL，需正確處理時間範囲（「上個月」「Q3」）、複雜聚合、多表 JOIN",
+          "SQL 執行前需進行安全檢查（禁止 DDL、限制查詢筆數上限 10,000 筆）",
+          "根據資料類型自動選擇圖表類型（時序→折線圖、比例→圓餅圖、比較→長條圖）",
+          "若查詢模糊，應先向使用者澄清（例如：「你說的『業績』是指訂單金額還是毛利？」）",
+          "產出包含 SQL 查詢、執行結果、視覺化圖表、3 條關鍵洞察的分析報告"
+        ],
+        "en": [
+          "Natural language to SQL: correctly handle time ranges (\"last month\", \"Q3\"), complex aggregations, and multi-table JOINs",
+          "Security check before execution: block DDL statements and cap results at 10,000 rows",
+          "Auto-select chart type based on data shape (time-series→line, proportion→pie, comparison→bar)",
+          "If query is ambiguous, ask for clarification first (e.g., \"By 'revenue', do you mean order amount or gross profit?\")",
+          "Output a full report: SQL query, execution results, visualization chart, and 3 key insights"
+        ],
+        "ja": [
+          "自然言語から SQL へ：時間範囲（「先月」「Q3」）・複雑な集計・多テーブル JOIN を正確に処理すること",
+          "実行前のセキュリティチェック：DDL 文をブロックし、クエリ結果を最大 10,000 行に制限すること",
+          "データの形状に基づいてグラフタイプを自動選択（時系列→折れ線グラフ・比率→円グラフ・比較→棒グラフ）",
+          "クエリが曖昧な場合は先に確認を求めること（例：「『売上』とは注文金額ですか、それとも粗利益ですか？」）",
+          "SQL クエリ・実行結果・可視化グラフ・3 つの重要インサイトを含む分析レポートを出力すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "多代理人架構要說明每個 Agent 的職責分工（NL2SQL、Validator、Visualization、Insight）",
+          "Text2SQL 品質評估需說明測試集設計方法（execution accuracy vs. match accuracy）",
+          "安全模型要說明如何防止 SQL injection，以及敏感欄位的遮蔽策略"
+        ],
+        "en": [
+          "Multi-agent architecture: describe each agent's responsibility (NL2SQL, Validator, Visualization, Insight)",
+          "Text2SQL quality evaluation: explain test set design (execution accuracy vs. match accuracy)",
+          "Security model: describe SQL injection prevention and sensitive column masking strategy"
+        ],
+        "ja": [
+          "マルチエージェントアーキテクチャ：各エージェントの責務を説明すること（NL2SQL・Validator・Visualization・Insight）",
+          "Text2SQL の品質評価：テストセットの設計方法を説明すること（実行精度 vs マッチ精度）",
+          "セキュリティモデル：SQL インジェクション防止と機密フィールドのマスキング戦略を説明すること"
+        ]
+      }
     }
   ],
   "system-design": [
     {
       "id": "sd-001",
-      "title": "URL 縮短服務",
       "difficulty": 1,
-      "scenario": "你被要求設計一個類似 TinyURL 的 URL 縮短服務。這是一道經典的系統設計入門題，考驗你對基礎系統元件的掌握程度。\n\n系統需求：每天產生 1 億個短網址，每天處理 100 億次重導向請求。短網址的有效期為 1 年。",
-      "requirements": [
-        "產生唯一的 7 位元英數字短碼（例如：abc1234）",
-        "讀寫比約為 100:1，需為高頻讀取做優化",
-        "短網址過期後自動失效，並釋放短碼供重新使用",
-        "提供自訂短碼功能（付費功能）",
-        "系統可用性目標 99.9%（每年停機不超過 8.7 小時）"
-      ],
-      "hints": [
-        "估算儲存需求：1 億次/天 × 365 天 × 1 年，每筆記錄約 500 bytes",
-        "短碼生成策略比較：Hash（MD5/SHA256 取前 7 碼）vs. ID 自增轉 Base62",
-        "快取策略：哪些資料適合放 Redis？快取大小怎麼估算？"
-      ]
+      "title": {
+        "zh-TW": "URL 縮短服務",
+        "en": "URL Shortening Service",
+        "ja": "URL 短縮サービス"
+      },
+      "scenario": {
+        "zh-TW": "你被要求設計一個類似 TinyURL 的 URL 縮短服務。這是一道經典的系統設計入門題，考驗你對基礎系統元件的掌握程度。\n\n系統需求：每天產生 1 億個短網址，每天處理 100 億次重導向請求。短網址的有效期為 1 年。",
+        "en": "You are asked to design a URL shortening service similar to TinyURL. This is a classic entry-level system design question that tests your grasp of fundamental system components.\n\nSystem requirements: generate 100 million short URLs per day, handle 10 billion redirect requests per day. Short URLs are valid for 1 year.",
+        "ja": "TinyURL に似た URL 短縮サービスを設計するよう求められています。これは基本的なシステムコンポーネントへの理解をテストする、システム設計の定番入門問題です。\n\nシステム要件：1 日あたり 1 億件の短縮 URL を生成し、1 日あたり 100 億件のリダイレクトリクエストを処理すること。短縮 URL の有効期間は 1 年。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "產生唯一的 7 位元英數字短碼（例如：abc1234）",
+          "讀寫比約為 100:1，需為高頻讀取做優化",
+          "短網址過期後自動失效，並釋放短碼供重新使用",
+          "提供自訂短碼功能（付費功能）",
+          "系統可用性目標 99.9%（每年停機不超過 8.7 小時）"
+        ],
+        "en": [
+          "Generate a unique 7-character alphanumeric short code (e.g., abc1234)",
+          "Read-to-write ratio ~100:1; optimize for high-frequency reads",
+          "Short URLs automatically expire and release their code for reuse",
+          "Provide custom short code feature (premium feature)",
+          "System availability target: 99.9% (no more than 8.7 hours downtime per year)"
+        ],
+        "ja": [
+          "ユニークな 7 文字の英数字短縮コードを生成すること（例：abc1234）",
+          "読み取りと書き込みの比率は約 100:1 で、高頻度の読み取りに最適化すること",
+          "短縮 URL は自動的に期限切れとなり、短縮コードが再利用可能になること",
+          "カスタム短縮コード機能を提供すること（プレミアム機能）",
+          "システム可用性目標：99.9%（年間のダウンタイムが 8.7 時間以内）"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "估算儲存需求：1 億次/天 × 365 天 × 1 年，每筆記錄約 500 bytes",
+          "短碼生成策略比較：Hash（MD5/SHA256 取前 7 碼）vs. ID 自增轉 Base62",
+          "快取策略：哪些資料適合放 Redis？快取大小怎麼估算？"
+        ],
+        "en": [
+          "Estimate storage: 100M/day × 365 days × 1 year, ~500 bytes per record",
+          "Short code generation: compare Hash (MD5/SHA256 first 7 chars) vs. auto-increment ID converted to Base62",
+          "Cache strategy: what data belongs in Redis? How do you estimate cache size?"
+        ],
+        "ja": [
+          "ストレージ推定：1 億件/日 × 365 日 × 1 年、1 レコードあたり約 500 バイト",
+          "短縮コード生成の比較：ハッシュ（MD5/SHA256 の先頭 7 文字）vs. 自動増分 ID の Base62 変換",
+          "キャッシュ戦略：どのデータが Redis に適しているか？キャッシュサイズはどう推定するか？"
+        ]
+      }
     },
     {
       "id": "sd-002",
-      "title": "即時聊天系統",
       "difficulty": 2,
-      "scenario": "設計一個支援一對一聊天與群組聊天的即時通訊系統，功能類似 WhatsApp 或 Messenger。系統需要支援全球用戶，並保證訊息可靠送達，即使接收方離線也能在上線後收到訊息。\n\n規模：1 億 DAU，平均每人每天傳送 40 則訊息，群組上限 500 人。",
-      "requirements": [
-        "訊息送達保證：至少一次送達（at-least-once delivery）",
-        "訊息狀態顯示：已傳送 ✓、已送達 ✓✓、已讀 ✓✓（藍色）",
-        "支援文字、圖片、影片、檔案（最大 100MB）",
-        "群組聊天最多 500 人，訊息需送達所有在線成員",
-        "訊息歷程保存 7 年（法規要求），支援關鍵字搜尋"
-      ],
-      "hints": [
-        "連線管理：WebSocket vs. Long Polling vs. SSE，各自適用場景",
-        "離線訊息如何處理？訊息佇列（MQ）的選型與消費策略",
-        "媒體檔案應與訊息文字分離儲存（物件儲存 vs. CDN），說明上傳流程"
-      ]
+      "title": {
+        "zh-TW": "即時聊天系統",
+        "en": "Real-time Chat System",
+        "ja": "リアルタイムチャットシステム"
+      },
+      "scenario": {
+        "zh-TW": "設計一個支援一對一聊天與群組聊天的即時通訊系統，功能類似 WhatsApp 或 Messenger。系統需要支援全球用戶，並保證訊息可靠送達，即使接收方離線也能在上線後收到訊息。\n\n規模：1 億 DAU，平均每人每天傳送 40 則訊息，群組上限 500 人。",
+        "en": "Design a real-time messaging system that supports both one-on-one and group chat, similar to WhatsApp or Messenger. The system must support global users and guarantee reliable message delivery — even to offline recipients once they come back online.\n\nScale: 100 million DAU, average 40 messages per user per day, max group size 500 members.",
+        "ja": "WhatsApp や Messenger に似た、1 対 1 チャットとグループチャットをサポートするリアルタイムメッセージングシステムを設計してください。システムはグローバルなユーザーをサポートし、オフラインの受信者がオンラインに戻った後でも確実にメッセージを届けることを保証する必要があります。\n\n規模：1 億 DAU、1 人あたり 1 日平均 40 メッセージ、最大グループサイズ 500 人。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "訊息送達保證：至少一次送達（at-least-once delivery）",
+          "訊息狀態顯示：已傳送 ✓、已送達 ✓✓、已讀 ✓✓（藍色）",
+          "支援文字、圖片、影片、檔案（最大 100MB）",
+          "群組聊天最多 500 人，訊息需送達所有在線成員",
+          "訊息歷程保存 7 年（法規要求），支援關鍵字搜尋"
+        ],
+        "en": [
+          "Message delivery guarantee: at-least-once delivery",
+          "Message status indicators: Sent ✓, Delivered ✓✓, Read ✓✓ (blue)",
+          "Support text, images, videos, and files (max 100 MB)",
+          "Group chat supports up to 500 members; messages must reach all online members",
+          "Message history retained for 7 years (regulatory requirement) with keyword search"
+        ],
+        "ja": [
+          "メッセージ配信保証：少なくとも 1 回の配信（at-least-once delivery）",
+          "メッセージステータス表示：送信済み ✓・配信済み ✓✓・既読 ✓✓（青色）",
+          "テキスト・画像・動画・ファイル（最大 100 MB）をサポートすること",
+          "グループチャットは最大 500 人で、オンラインのメンバー全員にメッセージを届けること",
+          "メッセージ履歴を 7 年間保持し（法規制要件）、キーワード検索に対応すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "連線管理：WebSocket vs. Long Polling vs. SSE，各自適用場景",
+          "離線訊息如何處理？訊息佇列（MQ）的選型與消費策略",
+          "媒體檔案應與訊息文字分離儲存（物件儲存 vs. CDN），說明上傳流程"
+        ],
+        "en": [
+          "Connection management: compare WebSocket vs. Long Polling vs. SSE and their applicable scenarios",
+          "How are offline messages handled? Message queue (MQ) selection and consumption strategy",
+          "Media files should be stored separately from message text (object storage vs. CDN); describe the upload flow"
+        ],
+        "ja": [
+          "接続管理：WebSocket vs. Long Polling vs. SSE の比較と適用シナリオ",
+          "オフラインメッセージはどのように処理するか？メッセージキュー（MQ）の選定と消費戦略",
+          "メディアファイルはメッセージテキストとは別に保存すること（オブジェクトストレージ vs. CDN）；アップロードフローを説明すること"
+        ]
+      }
     },
     {
       "id": "sd-003",
-      "title": "全球影片串流平台",
       "difficulty": 3,
-      "scenario": "設計一個全球規模的影片串流平台，類似 Netflix 或 YouTube。系統需要支援影片上傳、轉碼、儲存，以及針對全球用戶的低延遲播放。\n\n規模：5 億 MAU，1 億 DAU，每分鐘上傳 500 小時影片，播放 QPS 峰值 1,000 萬。",
-      "requirements": [
-        "上傳後 30 分鐘內完成轉碼，輸出 240p/480p/720p/1080p/4K 多種規格",
-        "播放延遲 < 2 秒，緩衝率 < 0.5%（全球各區域）",
-        "支援 ABR（自適應串流碼率），根據用戶網路品質動態切換畫質",
-        "熱門影片的 P99 讀取延遲 < 50ms",
-        "版權保護：DRM 加密，防止下載盜錄"
-      ],
-      "hints": [
-        "影片處理 pipeline：上傳（分段上傳）→ 原始檔儲存 → 轉碼 Worker Farm → CDN 分發",
-        "如何識別「熱門」與「冷門」影片並制定不同的快取策略？",
-        "DRM 系統（Widevine / FairPlay / PlayReady）整合架構如何設計？"
-      ]
+      "title": {
+        "zh-TW": "全球影片串流平台",
+        "en": "Global Video Streaming Platform",
+        "ja": "グローバル動画ストリーミングプラットフォーム"
+      },
+      "scenario": {
+        "zh-TW": "設計一個全球規模的影片串流平台，類似 Netflix 或 YouTube。系統需要支援影片上傳、轉碼、儲存，以及針對全球用戶的低延遲播放。\n\n規模：5 億 MAU，1 億 DAU，每分鐘上傳 500 小時影片，播放 QPS 峰值 1,000 萬。",
+        "en": "Design a global-scale video streaming platform similar to Netflix or YouTube. The system must support video upload, transcoding, storage, and low-latency playback for users worldwide.\n\nScale: 500 million MAU, 100 million DAU, 500 hours of video uploaded per minute, peak playback QPS of 10 million.",
+        "ja": "Netflix や YouTube に似たグローバル規模の動画ストリーミングプラットフォームを設計してください。システムは動画のアップロード・トランスコード・ストレージ、そして世界中のユーザー向けの低遅延再生をサポートする必要があります。\n\n規模：5 億 MAU、1 億 DAU、毎分 500 時間の動画アップロード、再生ピーク QPS 1,000 万。"
+      },
+      "requirements": {
+        "zh-TW": [
+          "上傳後 30 分鐘內完成轉碼，輸出 240p/480p/720p/1080p/4K 多種規格",
+          "播放延遲 < 2 秒，緩衝率 < 0.5%（全球各區域）",
+          "支援 ABR（自適應串流碼率），根據用戶網路品質動態切換畫質",
+          "熱門影片的 P99 讀取延遲 < 50ms",
+          "版權保護：DRM 加密，防止下載盜錄"
+        ],
+        "en": [
+          "Complete transcoding within 30 minutes of upload; output 240p/480p/720p/1080p/4K",
+          "Playback latency < 2 seconds, buffer rate < 0.5% (globally across all regions)",
+          "Support ABR (Adaptive Bitrate) streaming to dynamically adjust quality based on network conditions",
+          "P99 read latency for popular videos < 50ms",
+          "DRM encryption for copyright protection, preventing unauthorized download and recording"
+        ],
+        "ja": [
+          "アップロード後 30 分以内にトランスコードを完了し、240p/480p/720p/1080p/4K を出力すること",
+          "再生レイテンシー < 2 秒、バッファリング率 < 0.5%（グローバル全リージョン）",
+          "ABR（アダプティブビットレート）ストリーミングをサポートし、ネットワーク状況に応じて画質を動的に切り替えること",
+          "人気動画の P99 読み取りレイテンシー < 50ms",
+          "著作権保護のための DRM 暗号化；不正ダウンロードと録画を防止すること"
+        ]
+      },
+      "hints": {
+        "zh-TW": [
+          "影片處理 pipeline：上傳（分段上傳）→ 原始檔儲存 → 轉碼 Worker Farm → CDN 分發",
+          "如何識別「熱門」與「冷門」影片並制定不同的快取策略？",
+          "DRM 系統（Widevine / FairPlay / PlayReady）整合架構如何設計？"
+        ],
+        "en": [
+          "Video processing pipeline: upload (chunked) → raw file storage → transcoding worker farm → CDN distribution",
+          "How do you identify 'hot' vs. 'cold' videos and design differentiated caching strategies?",
+          "How do you architect the DRM system integration (Widevine / FairPlay / PlayReady)?"
+        ],
+        "ja": [
+          "動画処理パイプライン：アップロード（チャンク分割）→ 生ファイルの保存 → トランスコード Worker Farm → CDN 配信",
+          "「人気」動画と「コールド」動画をどのように識別し、差別化したキャッシュ戦略を設計するか？",
+          "DRM システム統合（Widevine / FairPlay / PlayReady）のアーキテクチャをどのように設計するか？"
+        ]
+      }
     }
   ]
 }

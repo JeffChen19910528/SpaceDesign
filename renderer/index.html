@@ -11,14 +11,19 @@
 
     <!-- Header -->
     <header id="header">
-      <div id="logo">系統設計練習工具</div>
+      <div id="logo" data-i18n="app_title">系統設計練習工具</div>
       <nav id="doc-tabs">
-        <button class="tab-btn active" data-type="srs">SRS 規格書</button>
-        <button class="tab-btn" data-type="ai-skill">AI Skill</button>
-        <button class="tab-btn" data-type="system-design">系統設計</button>
+        <button class="tab-btn active" data-type="srs" data-i18n="tab_srs">SRS 規格書</button>
+        <button class="tab-btn" data-type="ai-skill" data-i18n="tab_ai_skill">AI Skill</button>
+        <button class="tab-btn" data-type="system-design" data-i18n="tab_system_design">系統設計</button>
       </nav>
-      <button id="scenario-btn" title="情境練習">&#128203; 情境練習</button>
-      <button id="settings-btn" title="設定">&#9881; 設定</button>
+      <select id="lang-select" title="Language">
+        <option value="zh-TW">繁中</option>
+        <option value="en">EN</option>
+        <option value="ja">日本語</option>
+      </select>
+      <button id="scenario-btn" title="情境練習" data-i18n="btn_scenario">📋 情境練習</button>
+      <button id="settings-btn" title="設定" data-i18n="btn_settings">⚙ 設定</button>
     </header>
 
     <!-- Scenario Panel -->
@@ -31,23 +36,23 @@
         </div>
         <div id="scenario-controls">
           <button id="scenario-hint-btn" class="sc-btn">&#128161; 提示</button>
-          <button id="scenario-next-btn" class="sc-btn">&#8635; 換題</button>
-          <button id="scenario-ai-btn" class="sc-btn ai hidden">&#10024; AI 出題</button>
+          <button id="scenario-next-btn" class="sc-btn" data-i18n="scenario_btn_next">&#8635; 換題</button>
+          <button id="scenario-ai-btn" class="sc-btn ai hidden" data-i18n="scenario_btn_ai">&#10024; AI 出題</button>
           <button id="scenario-close-btn" class="sc-btn">&#10005;</button>
         </div>
       </div>
       <div id="scenario-body">
         <div id="scenario-desc"></div>
         <div id="scenario-reqs-wrap">
-          <div class="sc-section-title">需求清單</div>
+          <div class="sc-section-title" data-i18n="scenario_req_title">需求清單</div>
           <ul id="scenario-reqs"></ul>
         </div>
         <div id="scenario-hints-wrap" class="hidden">
-          <div class="sc-section-title hints">&#128161; 撰寫提示</div>
+          <div class="sc-section-title hints" data-i18n="scenario_hints_title">&#128161; 撰寫提示</div>
           <ul id="scenario-hints-list"></ul>
         </div>
         <div id="scenario-gen-loading" class="hidden">
-          <div class="spinner small"></div> AI 正在生成新題目...
+          <div class="spinner small"></div><span data-i18n="scenario_generating"> AI 正在生成新題目...</span>
         </div>
       </div>
     </div>
@@ -60,19 +65,19 @@
         <div id="editor-toolbar">
           <span id="doc-type-label">SRS 規格書</span>
           <div id="toolbar-actions">
-            <button id="upload-btn">&#128193; 上傳檔案</button>
-            <button id="clear-btn">&#128465; 清除</button>
+            <button id="upload-btn" data-i18n="editor_upload">&#128193; 上傳檔案</button>
+            <button id="clear-btn" data-i18n="editor_clear">&#128465; 清除</button>
           </div>
         </div>
 
         <div id="drop-zone">
-          <textarea id="editor" placeholder="在此輸入你的文件內容&#10;&#10;或將 .txt / .md 檔案拖曳至此處..."></textarea>
-          <div id="drop-overlay">放開以上傳檔案</div>
+          <textarea id="editor" data-i18n-placeholder="editor_placeholder" placeholder="在此輸入你的文件內容&#10;&#10;或將 .txt / .md 檔案拖曳至此處..."></textarea>
+          <div id="drop-overlay" data-i18n="drop_overlay">放開以上傳檔案</div>
         </div>
 
         <div id="editor-footer">
           <span id="char-count">0 字</span>
-          <button id="evaluate-btn">&#128269; 開始評論</button>
+          <button id="evaluate-btn" data-i18n="editor_evaluate">&#128269; 開始評論</button>
         </div>
       </div>
 
@@ -81,21 +86,21 @@
 
       <!-- Results Panel -->
       <div id="results-panel">
-        <div id="results-header">評論結果</div>
+        <div id="results-header" data-i18n="results_header">評論結果</div>
 
         <div id="results-body">
 
           <!-- Empty State -->
           <div id="results-empty">
             <div id="empty-icon">&#128196;</div>
-            <p>輸入文件後點擊「開始評論」</p>
-            <p id="empty-hint">支援 SRS 規格書、AI Skill 文件、系統設計文件</p>
+            <p data-i18n="results_empty_text">輸入文件後點擊「開始評論」</p>
+            <p id="empty-hint" data-i18n="results_empty_hint">支援 SRS 規格書、AI Skill 文件、系統設計文件</p>
           </div>
 
           <!-- Loading State -->
           <div id="results-loading" class="hidden">
             <div class="spinner"></div>
-            <p>分析中...</p>
+            <p data-i18n="results_loading">分析中...</p>
           </div>
 
           <!-- Score Section -->
@@ -113,16 +118,16 @@
               </div>
               <div id="score-breakdown">
                 <div class="breakdown-item">
-                  <span class="tag success">&#10003; 完成</span>
-                  <span id="found-count">0</span> 項
+                  <span class="tag success" data-i18n="tag_done">&#10003; 完成</span>
+                  <span id="found-count">0</span><span class="i18n-unit" data-i18n="unit_items"> 項</span>
                 </div>
                 <div class="breakdown-item">
-                  <span class="tag error">&#10007; 缺失</span>
-                  <span id="missing-count">0</span> 項
+                  <span class="tag error" data-i18n="tag_missing">&#10007; 缺失</span>
+                  <span id="missing-count">0</span><span class="i18n-unit" data-i18n="unit_items"> 項</span>
                 </div>
                 <div class="breakdown-item">
-                  <span class="tag warning">&#9888; 警告</span>
-                  <span id="warning-count">0</span> 項
+                  <span class="tag warning" data-i18n="tag_warning">&#9888; 警告</span>
+                  <span id="warning-count">0</span><span class="i18n-unit" data-i18n="unit_items"> 項</span>
                 </div>
               </div>
             </div>
@@ -134,27 +139,27 @@
 
           <!-- Missing Items -->
           <div id="missing-section" class="result-section hidden">
-            <h3 class="section-title error">&#10007; 缺失項目</h3>
+            <h3 class="section-title error" data-i18n="section_missing">&#10007; 缺失項目</h3>
             <div id="missing-list"></div>
           </div>
 
           <!-- Warnings -->
           <div id="warnings-section" class="result-section hidden">
-            <h3 class="section-title warning">&#9888; 警告</h3>
+            <h3 class="section-title warning" data-i18n="section_warnings">&#9888; 警告</h3>
             <div id="warnings-list"></div>
           </div>
 
           <!-- Found Items -->
           <div id="found-section" class="result-section hidden">
-            <h3 class="section-title success">&#10003; 已完成項目</h3>
+            <h3 class="section-title success" data-i18n="section_found">&#10003; 已完成項目</h3>
             <div id="found-list"></div>
           </div>
 
           <!-- AI Feedback -->
           <div id="ai-section" class="result-section hidden">
-            <h3 class="section-title ai">&#129302; AI 詳細評論</h3>
+            <h3 class="section-title ai" data-i18n="section_ai">&#129302; AI 詳細評論</h3>
             <div id="ai-loading" class="hidden">
-              <div class="spinner small"></div> 等待本地模型回應...
+              <div class="spinner small"></div><span data-i18n="ai_loading_text"> 等待本地模型回應...</span>
             </div>
             <div id="ai-content"></div>
           </div>
@@ -168,41 +173,42 @@
   <div id="settings-overlay" class="hidden">
     <div id="settings-modal">
       <div id="settings-header">
-        <h2>設定</h2>
+        <h2 data-i18n="settings_title">設定</h2>
         <button id="close-settings">&#10005;</button>
       </div>
       <div id="settings-body">
         <div class="setting-group">
-          <h3>評論引擎</h3>
+          <h3 data-i18n="settings_engine_title">評論引擎</h3>
           <label class="toggle-label">
             <input type="checkbox" id="use-local-model">
-            <span class="toggle-text">啟用本地模型（Ollama）進行 AI 評論</span>
+            <span class="toggle-text" data-i18n="settings_local_label">啟用本地模型（Ollama）進行 AI 評論</span>
           </label>
-          <p class="setting-hint">關閉時僅使用規則式評論；開啟後會額外呼叫本地 AI 模型進行深度分析</p>
+          <p class="setting-hint" data-i18n="settings_local_hint">關閉時僅使用規則式評論；開啟後會額外呼叫本地 AI 模型進行深度分析</p>
         </div>
 
         <div class="setting-group" id="model-settings">
-          <h3>本地模型設定</h3>
+          <h3 data-i18n="settings_model_title">本地模型設定</h3>
           <label class="field-label">
-            API 網址
+            <span data-i18n="settings_api_label">API 網址</span>
             <input type="text" id="model-url" placeholder="http://localhost:11434">
           </label>
           <label class="field-label">
-            模型名稱
+            <span data-i18n="settings_model_name_label">模型名稱</span>
             <input type="text" id="model-name" placeholder="llama3">
           </label>
           <div id="test-row">
-            <button id="test-model-btn">測試連線</button>
+            <button id="test-model-btn" data-i18n="settings_test_btn">測試連線</button>
             <span id="test-result"></span>
           </div>
         </div>
       </div>
       <div id="settings-footer">
-        <button id="save-settings-btn">儲存設定</button>
+        <button id="save-settings-btn" data-i18n="settings_save_btn">儲存設定</button>
       </div>
     </div>
   </div>
 
+  <script src="locales.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
