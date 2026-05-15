@@ -1,0 +1,168 @@
+{
+  "version": "1.0.0",
+  "docType": "srs",
+  "name": "系統規格書 (SRS)",
+  "sections": [
+    {
+      "id": "purpose",
+      "name": "1.1 文件目的",
+      "required": true,
+      "weight": 8,
+      "keywords": ["目的", "purpose", "文件目的", "本文件"],
+      "description": "說明此文件的目的與預期讀者",
+      "hint": "應說明：為何撰寫此文件、預期讀者是誰、文件涵蓋範圍"
+    },
+    {
+      "id": "scope",
+      "name": "1.2 系統範圍",
+      "required": true,
+      "weight": 8,
+      "keywords": ["範圍", "scope", "系統範圍", "1.2"],
+      "description": "定義系統的邊界與涵蓋範圍",
+      "hint": "應說明：系統名稱、系統要做什麼、系統不做什麼（out of scope）"
+    },
+    {
+      "id": "definitions",
+      "name": "1.3 定義與縮寫",
+      "required": false,
+      "weight": 5,
+      "keywords": ["定義", "definition", "縮寫", "術語", "glossary", "abbreviation"],
+      "description": "列出文件中使用的專有名詞與縮寫",
+      "hint": "列出所有技術術語、縮寫及其定義，方便讀者理解"
+    },
+    {
+      "id": "overview",
+      "name": "2.1 系統概述",
+      "required": true,
+      "weight": 8,
+      "keywords": ["概述", "overview", "系統說明", "產品概述", "整體描述"],
+      "description": "從高層次描述系統功能與目標",
+      "hint": "應包含：系統背景、主要功能摘要、系統與外部環境的關係"
+    },
+    {
+      "id": "user-characteristics",
+      "name": "2.2 使用者描述",
+      "required": false,
+      "weight": 5,
+      "keywords": ["使用者", "user", "角色", "role", "persona", "stakeholder"],
+      "description": "描述系統的目標使用者群體",
+      "hint": "列出不同的使用者角色及其技術背景、使用目的"
+    },
+    {
+      "id": "constraints",
+      "name": "2.3 系統限制",
+      "required": false,
+      "weight": 5,
+      "keywords": ["限制", "constraint", "假設", "assumption", "依賴", "dependency"],
+      "description": "描述開發的限制條件與前提假設",
+      "hint": "應說明：技術限制、業務規則限制、外部系統依賴"
+    },
+    {
+      "id": "functional-req",
+      "name": "3.1 功能需求",
+      "required": true,
+      "weight": 15,
+      "keywords": ["功能需求", "functional requirement", "FR-", "功能性需求", "系統功能"],
+      "description": "詳細列出系統必須提供的功能",
+      "hint": "每條功能需求應有唯一編號（如 FR-001）、優先級、描述，並寫明輸入/處理/輸出"
+    },
+    {
+      "id": "non-functional-req",
+      "name": "3.2 非功能需求",
+      "required": true,
+      "weight": 12,
+      "keywords": ["非功能", "non-functional", "NFR", "品質屬性", "quality attribute"],
+      "description": "定義系統的品質屬性與限制",
+      "hint": "應包含：效能、可用性、安全性、可維護性、可擴展性等要求，且每項需有可量化指標"
+    },
+    {
+      "id": "performance",
+      "name": "3.3 效能需求",
+      "required": true,
+      "weight": 10,
+      "keywords": ["效能", "performance", "回應時間", "response time", "throughput", "latency", "QPS", "TPS", "並發"],
+      "description": "具體說明系統的效能指標",
+      "hint": "應包含具體數字：如「90%請求須在200ms內回應」、「系統支援1000並發使用者」"
+    },
+    {
+      "id": "security",
+      "name": "3.4 安全需求",
+      "required": true,
+      "weight": 10,
+      "keywords": ["安全", "security", "認證", "授權", "authentication", "authorization", "加密", "encrypt", "HTTPS"],
+      "description": "定義系統的安全機制與要求",
+      "hint": "應說明：認證方式、授權機制、資料加密要求、稽核日誌"
+    },
+    {
+      "id": "external-interface",
+      "name": "3.5 外部介面需求",
+      "required": false,
+      "weight": 7,
+      "keywords": ["介面", "interface", "API", "外部系統", "第三方", "third-party", "整合"],
+      "description": "描述系統與外部系統的介面",
+      "hint": "應說明：外部API規格、資料格式、通訊協定、錯誤處理"
+    },
+    {
+      "id": "use-cases",
+      "name": "3.6 使用案例",
+      "required": false,
+      "weight": 8,
+      "keywords": ["使用案例", "use case", "UC-", "使用者故事", "user story", "情境"],
+      "description": "描述使用者與系統互動的場景",
+      "hint": "每個使用案例應包含：前置條件、主要流程、替代流程、後置條件"
+    },
+    {
+      "id": "acceptance-criteria",
+      "name": "3.7 驗收標準",
+      "required": false,
+      "weight": 7,
+      "keywords": ["驗收", "acceptance", "驗收標準", "測試標準", "完成條件"],
+      "description": "定義功能完成的驗收條件",
+      "hint": "每條功能需求應有對應的驗收標準，可用 Given/When/Then 格式撰寫"
+    },
+    {
+      "id": "error-handling",
+      "name": "4.1 錯誤處理",
+      "required": false,
+      "weight": 5,
+      "keywords": ["錯誤", "error", "例外", "exception", "失敗", "failure", "錯誤處理"],
+      "description": "描述系統如何處理錯誤情況",
+      "hint": "應列出主要錯誤類型及對應的處理方式和使用者提示"
+    }
+  ],
+  "qualityChecks": [
+    {
+      "id": "vague-terms",
+      "name": "模糊用詞",
+      "pattern": "大概|也許|可能會|差不多|sometime|maybe|approximately|左右|等等|諸如此類",
+      "triggerWhenFound": true,
+      "severity": "warning",
+      "message": "發現模糊用詞，需求應具體且可驗證，避免使用不確定語氣"
+    },
+    {
+      "id": "req-numbering",
+      "name": "需求編號",
+      "pattern": "FR-\\d+|NFR-\\d+|REQ-\\d+|UC-\\d+",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現需求編號格式（如 FR-001、NFR-001），建議為每條需求加上唯一編號以便追蹤"
+    },
+    {
+      "id": "measurable-metrics",
+      "name": "可量化指標",
+      "pattern": "\\d+\\s*(ms|秒|分鐘|%|MB|GB|QPS|TPS|並發|用戶)",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現具體數值指標，效能與品質需求應包含可量化的數字（如：200ms、99.9%、1000 QPS）"
+    },
+    {
+      "id": "priority",
+      "name": "需求優先級",
+      "pattern": "必要|高優先|中優先|低優先|Must|Should|Could|Won't|P0|P1|P2",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現需求優先級標記，建議使用 MoSCoW 或 P0/P1/P2 方式標示每條需求的重要性"
+    }
+  ],
+  "evaluationPrompt": "你是一個資深的系統分析師，請評論以下系統規格書（SRS）。請用繁體中文分析：\n1. 哪些重要章節缺失\n2. 需求描述是否足夠具體\n3. 是否有模糊或矛盾的地方\n4. 改善建議\n\n文件內容：\n"
+}

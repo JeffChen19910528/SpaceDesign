@@ -1,0 +1,12 @@
+{
+  "name": "space-design-trainer",
+  "version": "1.0.0",
+  "description": "系統設計文件練習工具",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^29.0.0"
+  }
+}

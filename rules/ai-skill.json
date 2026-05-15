@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "docType": "ai-skill",
+  "name": "AI Skill 文件",
+  "sections": [
+    {
+      "id": "skill-name",
+      "name": "1. Skill 名稱",
+      "required": true,
+      "weight": 8,
+      "keywords": ["skill name", "技能名稱", "名稱", "skill:", "name:"],
+      "description": "定義此 Skill 的唯一名稱",
+      "hint": "名稱應簡潔且具描述性，如 `send_email`、`search_web`，使用 snake_case 命名"
+    },
+    {
+      "id": "description",
+      "name": "2. 功能描述",
+      "required": true,
+      "weight": 8,
+      "keywords": ["描述", "description", "說明", "功能說明", "介紹"],
+      "description": "說明此 Skill 的功能與用途",
+      "hint": "應在 2-3 句話內清楚說明：這個 skill 做什麼、解決什麼問題、適用情境"
+    },
+    {
+      "id": "trigger",
+      "name": "3. 觸發條件",
+      "required": true,
+      "weight": 12,
+      "keywords": ["觸發", "trigger", "when to use", "使用時機", "使用場景", "適用情境", "invoke"],
+      "description": "定義何時應該使用此 Skill",
+      "hint": "應列出具體的使用場景與觸發關鍵字，並說明什麼情況下不應使用此 Skill"
+    },
+    {
+      "id": "input-params",
+      "name": "4. 輸入參數",
+      "required": true,
+      "weight": 12,
+      "keywords": ["輸入", "input", "parameter", "參數", "arguments", "props", "schema"],
+      "description": "定義 Skill 接受的所有輸入參數",
+      "hint": "每個參數應說明：名稱、類型、是否必填、預設值、描述。建議用 JSON Schema 格式定義"
+    },
+    {
+      "id": "output",
+      "name": "5. 輸出格式",
+      "required": true,
+      "weight": 12,
+      "keywords": ["輸出", "output", "回傳", "return", "response", "result"],
+      "description": "定義 Skill 的輸出結構",
+      "hint": "應說明：回傳的資料格式（JSON schema）、成功與失敗的回傳格式、欄位說明"
+    },
+    {
+      "id": "examples",
+      "name": "6. 使用範例",
+      "required": true,
+      "weight": 10,
+      "keywords": ["範例", "example", "示例", "sample", "demo", "用法"],
+      "description": "提供具體的輸入輸出範例",
+      "hint": "應至少提供 2-3 個範例，涵蓋正常情況與邊界情況，並包含完整的輸入與對應輸出"
+    },
+    {
+      "id": "error-handling",
+      "name": "7. 錯誤處理",
+      "required": true,
+      "weight": 10,
+      "keywords": ["錯誤", "error", "exception", "失敗", "failure", "fallback", "錯誤處理"],
+      "description": "定義 Skill 失敗時的行為",
+      "hint": "應列出：可能的錯誤類型、每種錯誤的處理方式、Fallback 行為、回傳的錯誤訊息格式"
+    },
+    {
+      "id": "limitations",
+      "name": "8. 限制說明",
+      "required": true,
+      "weight": 8,
+      "keywords": ["限制", "limitation", "不支援", "不適用", "cannot", "constraint", "注意事項"],
+      "description": "說明此 Skill 的限制與不適用場景",
+      "hint": "應明確說明：這個 skill 無法做什麼、輸入限制（如最大長度）、已知問題"
+    },
+    {
+      "id": "dependencies",
+      "name": "9. 相依性",
+      "required": false,
+      "weight": 5,
+      "keywords": ["相依", "dependency", "dependencies", "requires", "需要", "前置條件"],
+      "description": "列出此 Skill 依賴的外部資源或其他 Skills",
+      "hint": "說明需要的 API、工具、其他 Skills 或環境設定"
+    },
+    {
+      "id": "testing",
+      "name": "10. 測試案例",
+      "required": false,
+      "weight": 8,
+      "keywords": ["測試", "test", "test case", "驗證", "verify", "評估標準"],
+      "description": "定義如何驗證 Skill 的正確性",
+      "hint": "應提供：正常情況測試、邊界值測試、錯誤情況測試的期望行為"
+    },
+    {
+      "id": "version",
+      "name": "11. 版本資訊",
+      "required": false,
+      "weight": 3,
+      "keywords": ["版本", "version", "v1", "v2", "changelog", "更新記錄"],
+      "description": "記錄 Skill 的版本與更新歷史",
+      "hint": "應包含版本號、建立日期、更新記錄"
+    }
+  ],
+  "qualityChecks": [
+    {
+      "id": "param-type",
+      "name": "參數型別定義",
+      "pattern": "string|number|boolean|array|object|integer|float|list|dict",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現明確的參數型別定義，每個輸入參數應標明資料型別（如 string, number, boolean）"
+    },
+    {
+      "id": "required-optional",
+      "name": "必填/選填標記",
+      "pattern": "必填|選填|required|optional",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未標記參數是否必填，每個參數應明確標示 required 或 optional"
+    },
+    {
+      "id": "edge-cases",
+      "name": "邊界情況",
+      "pattern": "邊界|edge case|空值|null|undefined|empty|最大|最小|max|min",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未描述邊界情況處理，應說明空值、最大/最小值等特殊情況的行為"
+    },
+    {
+      "id": "json-format",
+      "name": "結構化格式",
+      "pattern": "\\{[\\s\\S]*?\\}|```",
+      "triggerWhenFound": false,
+      "severity": "info",
+      "message": "建議使用 JSON 或程式碼區塊格式化參數結構，提高可讀性"
+    }
+  ],
+  "evaluationPrompt": "你是一個資深的 AI 系統架構師，請評論以下 AI Skill 文件。請用繁體中文分析：\n1. 文件完整性（哪些必要章節缺失）\n2. 輸入輸出規格是否清楚\n3. 錯誤處理是否充分\n4. 觸發條件是否明確\n5. 改善建議\n\n文件內容：\n"
+}

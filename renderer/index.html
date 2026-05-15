@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src http://localhost:* http://127.0.0.1:*">
+  <title>系統設計練習工具</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div id="logo">系統設計練習工具</div>
+      <nav id="doc-tabs">
+        <button class="tab-btn active" data-type="srs">SRS 規格書</button>
+        <button class="tab-btn" data-type="ai-skill">AI Skill</button>
+        <button class="tab-btn" data-type="system-design">系統設計</button>
+      </nav>
+      <button id="scenario-btn" title="情境練習">&#128203; 情境練習</button>
+      <button id="settings-btn" title="設定">&#9881; 設定</button>
+    </header>
+
+    <!-- Scenario Panel -->
+    <div id="scenario-panel" class="hidden">
+      <div id="scenario-header">
+        <div id="scenario-meta">
+          <span id="scenario-badge" class="sc-badge">系統設計</span>
+          <span id="scenario-stars">&#9733;&#9734;&#9734;</span>
+          <span id="scenario-title-text">載入中...</span>
+        </div>
+        <div id="scenario-controls">
+          <button id="scenario-hint-btn" class="sc-btn">&#128161; 提示</button>
+          <button id="scenario-next-btn" class="sc-btn">&#8635; 換題</button>
+          <button id="scenario-ai-btn" class="sc-btn ai hidden">&#10024; AI 出題</button>
+          <button id="scenario-close-btn" class="sc-btn">&#10005;</button>
+        </div>
+      </div>
+      <div id="scenario-body">
+        <div id="scenario-desc"></div>
+        <div id="scenario-reqs-wrap">
+          <div class="sc-section-title">需求清單</div>
+          <ul id="scenario-reqs"></ul>
+        </div>
+        <div id="scenario-hints-wrap" class="hidden">
+          <div class="sc-section-title hints">&#128161; 撰寫提示</div>
+          <ul id="scenario-hints-list"></ul>
+        </div>
+        <div id="scenario-gen-loading" class="hidden">
+          <div class="spinner small"></div> AI 正在生成新題目...
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div id="main">
+
+      <!-- Editor Panel -->
+      <div id="editor-panel">
+        <div id="editor-toolbar">
+          <span id="doc-type-label">SRS 規格書</span>
+          <div id="toolbar-actions">
+            <button id="upload-btn">&#128193; 上傳檔案</button>
+            <button id="clear-btn">&#128465; 清除</button>
+          </div>
+        </div>
+
+        <div id="drop-zone">
+          <textarea id="editor" placeholder="在此輸入你的文件內容&#10;&#10;或將 .txt / .md 檔案拖曳至此處..."></textarea>
+          <div id="drop-overlay">放開以上傳檔案</div>
+        </div>
+
+        <div id="editor-footer">
+          <span id="char-count">0 字</span>
+          <button id="evaluate-btn">&#128269; 開始評論</button>
+        </div>
+      </div>
+
+      <!-- Resize Handle -->
+      <div id="resize-handle"></div>
+
+      <!-- Results Panel -->
+      <div id="results-panel">
+        <div id="results-header">評論結果</div>
+
+        <div id="results-body">
+
+          <!-- Empty State -->
+          <div id="results-empty">
+            <div id="empty-icon">&#128196;</div>
+            <p>輸入文件後點擊「開始評論」</p>
+            <p id="empty-hint">支援 SRS 規格書、AI Skill 文件、系統設計文件</p>
+          </div>
+
+          <!-- Loading State -->
+          <div id="results-loading" class="hidden">
+            <div class="spinner"></div>
+            <p>分析中...</p>
+          </div>
+
+          <!-- Score Section -->
+          <div id="score-section" class="result-section hidden">
+            <div id="score-row">
+              <div id="score-circle">
+                <svg viewBox="0 0 100 100">
+                  <circle class="track" cx="50" cy="50" r="40"/>
+                  <circle id="score-arc" class="progress" cx="50" cy="50" r="40"/>
+                </svg>
+                <div id="score-text">
+                  <span id="score-value">0</span>
+                  <span id="score-unit">分</span>
+                </div>
+              </div>
+              <div id="score-breakdown">
+                <div class="breakdown-item">
+                  <span class="tag success">&#10003; 完成</span>
+                  <span id="found-count">0</span> 項
+                </div>
+                <div class="breakdown-item">
+                  <span class="tag error">&#10007; 缺失</span>
+                  <span id="missing-count">0</span> 項
+                </div>
+                <div class="breakdown-item">
+                  <span class="tag warning">&#9888; 警告</span>
+                  <span id="warning-count">0</span> 項
+                </div>
+              </div>
+            </div>
+            <div id="score-bar-wrap">
+              <div id="score-bar"><div id="score-bar-fill"></div></div>
+              <span id="score-bar-label"></span>
+            </div>
+          </div>
+
+          <!-- Missing Items -->
+          <div id="missing-section" class="result-section hidden">
+            <h3 class="section-title error">&#10007; 缺失項目</h3>
+            <div id="missing-list"></div>
+          </div>
+
+          <!-- Warnings -->
+          <div id="warnings-section" class="result-section hidden">
+            <h3 class="section-title warning">&#9888; 警告</h3>
+            <div id="warnings-list"></div>
+          </div>
+
+          <!-- Found Items -->
+          <div id="found-section" class="result-section hidden">
+            <h3 class="section-title success">&#10003; 已完成項目</h3>
+            <div id="found-list"></div>
+          </div>
+
+          <!-- AI Feedback -->
+          <div id="ai-section" class="result-section hidden">
+            <h3 class="section-title ai">&#129302; AI 詳細評論</h3>
+            <div id="ai-loading" class="hidden">
+              <div class="spinner small"></div> 等待本地模型回應...
+            </div>
+            <div id="ai-content"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-overlay" class="hidden">
+    <div id="settings-modal">
+      <div id="settings-header">
+        <h2>設定</h2>
+        <button id="close-settings">&#10005;</button>
+      </div>
+      <div id="settings-body">
+        <div class="setting-group">
+          <h3>評論引擎</h3>
+          <label class="toggle-label">
+            <input type="checkbox" id="use-local-model">
+            <span class="toggle-text">啟用本地模型（Ollama）進行 AI 評論</span>
+          </label>
+          <p class="setting-hint">關閉時僅使用規則式評論；開啟後會額外呼叫本地 AI 模型進行深度分析</p>
+        </div>
+
+        <div class="setting-group" id="model-settings">
+          <h3>本地模型設定</h3>
+          <label class="field-label">
+            API 網址
+            <input type="text" id="model-url" placeholder="http://localhost:11434">
+          </label>
+          <label class="field-label">
+            模型名稱
+            <input type="text" id="model-name" placeholder="llama3">
+          </label>
+          <div id="test-row">
+            <button id="test-model-btn">測試連線</button>
+            <span id="test-result"></span>
+          </div>
+        </div>
+      </div>
+      <div id="settings-footer">
+        <button id="save-settings-btn">儲存設定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

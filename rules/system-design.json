@@ -1,0 +1,168 @@
+{
+  "version": "1.0.0",
+  "docType": "system-design",
+  "name": "系統設計文件",
+  "sections": [
+    {
+      "id": "overview",
+      "name": "1. 系統概述",
+      "required": true,
+      "weight": 8,
+      "keywords": ["概述", "overview", "系統說明", "背景", "目標", "目的", "introduction"],
+      "description": "描述系統的背景與目標",
+      "hint": "應說明：系統解決什麼問題、核心業務目標、關鍵設計考量（如規模、一致性要求）"
+    },
+    {
+      "id": "requirements",
+      "name": "2. 需求分析",
+      "required": true,
+      "weight": 8,
+      "keywords": ["需求", "requirement", "功能性", "非功能性", "規模估算", "scale", "QPS", "DAU", "MAU"],
+      "description": "列出功能性與非功能性需求，包含規模估算",
+      "hint": "應包含：功能需求清單、QPS/DAU/儲存量等規模估算、可用性/延遲等非功能需求"
+    },
+    {
+      "id": "architecture",
+      "name": "3. 系統架構",
+      "required": true,
+      "weight": 15,
+      "keywords": ["架構", "architecture", "系統架構", "高層設計", "high-level", "元件圖", "component"],
+      "description": "描述系統的整體架構",
+      "hint": "應包含：架構圖說明、主要元件列表、各元件職責、選擇此架構的理由"
+    },
+    {
+      "id": "components",
+      "name": "4. 元件說明",
+      "required": true,
+      "weight": 10,
+      "keywords": ["元件", "component", "模組", "module", "服務", "service", "微服務", "microservice"],
+      "description": "詳細說明每個主要元件",
+      "hint": "每個元件應說明：功能職責、技術選型、與其他元件的互動方式"
+    },
+    {
+      "id": "data-flow",
+      "name": "5. 資料流設計",
+      "required": true,
+      "weight": 10,
+      "keywords": ["資料流", "data flow", "流程", "sequence", "請求流程", "workflow", "pipeline"],
+      "description": "描述資料在系統中的流動方式",
+      "hint": "應描述：主要請求的端到端流程、資料在各元件間如何傳遞、非同步處理流程"
+    },
+    {
+      "id": "api-design",
+      "name": "6. API 設計",
+      "required": false,
+      "weight": 8,
+      "keywords": ["API", "endpoint", "REST", "GraphQL", "gRPC", "介面設計", "接口"],
+      "description": "定義系統對外的 API 規格",
+      "hint": "應包含：主要 API endpoint、HTTP 方法、請求/回應格式、認證方式、版本管理策略"
+    },
+    {
+      "id": "database",
+      "name": "7. 資料庫設計",
+      "required": true,
+      "weight": 10,
+      "keywords": ["資料庫", "database", "DB", "schema", "table", "collection", "資料模型", "data model"],
+      "description": "設計資料儲存架構",
+      "hint": "應包含：資料庫選型（SQL/NoSQL）及選擇理由、主要 schema 設計、索引策略、資料分割方式"
+    },
+    {
+      "id": "scalability",
+      "name": "8. 可擴展性設計",
+      "required": true,
+      "weight": 8,
+      "keywords": ["擴展", "scalability", "horizontal", "vertical", "scale out", "分散式", "load balance", "負載均衡", "sharding"],
+      "description": "描述系統如何應對增長",
+      "hint": "應說明：水平/垂直擴展策略、負載均衡方式、分片策略、快取設計"
+    },
+    {
+      "id": "caching",
+      "name": "9. 快取策略",
+      "required": false,
+      "weight": 6,
+      "keywords": ["快取", "cache", "Redis", "CDN", "Memcached", "緩存"],
+      "description": "定義系統的快取層設計",
+      "hint": "應說明：哪些資料需要快取、快取失效策略（TTL/LRU）、快取一致性處理"
+    },
+    {
+      "id": "security",
+      "name": "10. 安全設計",
+      "required": true,
+      "weight": 8,
+      "keywords": ["安全", "security", "認證", "授權", "authentication", "authorization", "JWT", "OAuth", "加密", "HTTPS"],
+      "description": "描述系統的安全機制",
+      "hint": "應包含：身份驗證機制、授權策略、資料加密（傳輸與靜態）、防攻擊措施（Rate limiting、SQL injection 防護）"
+    },
+    {
+      "id": "tech-stack",
+      "name": "11. 技術選型",
+      "required": true,
+      "weight": 6,
+      "keywords": ["技術", "technology", "tech stack", "語言", "framework", "工具", "選型"],
+      "description": "說明使用的技術與選擇理由",
+      "hint": "應列出：程式語言、框架、資料庫、基礎設施，以及選擇的理由（不只是列名稱）"
+    },
+    {
+      "id": "deployment",
+      "name": "12. 部署策略",
+      "required": false,
+      "weight": 5,
+      "keywords": ["部署", "deployment", "Docker", "Kubernetes", "K8s", "CI/CD", "雲端", "cloud"],
+      "description": "描述系統的部署架構",
+      "hint": "應說明：容器化方案、CI/CD 流程、環境管理（dev/staging/prod）、部署策略（Blue-Green/Canary）"
+    },
+    {
+      "id": "monitoring",
+      "name": "13. 監控與日誌",
+      "required": false,
+      "weight": 5,
+      "keywords": ["監控", "monitoring", "logging", "日誌", "alert", "metrics", "tracing", "觀測"],
+      "description": "定義系統的可觀測性方案",
+      "hint": "應包含：Metrics 收集、Log 策略、Tracing、告警機制、Dashboard 設計"
+    },
+    {
+      "id": "failure",
+      "name": "14. 故障處理",
+      "required": false,
+      "weight": 5,
+      "keywords": ["故障", "failure", "容錯", "fault tolerance", "fallback", "circuit breaker", "retry", "備援", "DR"],
+      "description": "描述系統的容錯與恢復機制",
+      "hint": "應說明：單點故障如何避免、Circuit Breaker 機制、資料備份策略、災難恢復計畫"
+    }
+  ],
+  "qualityChecks": [
+    {
+      "id": "scale-numbers",
+      "name": "規模數字估算",
+      "pattern": "\\d+\\s*(QPS|TPS|DAU|MAU|GB|TB|ms|秒|用戶|請求|並發)",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現具體規模估算數字，好的系統設計文件應先估算流量規模（QPS、DAU）與資料量，再決定架構"
+    },
+    {
+      "id": "tradeoffs",
+      "name": "設計取捨說明",
+      "pattern": "取捨|trade-?off|優缺點|pros|cons|考量|因為|理由|因此選擇",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現設計取捨說明，每個關鍵設計決策應說明為何選擇此方案而非其他方案"
+    },
+    {
+      "id": "bottleneck",
+      "name": "瓶頸分析",
+      "pattern": "瓶頸|bottleneck|單點故障|SPOF|single point|效能問題|擴展問題",
+      "triggerWhenFound": false,
+      "severity": "warning",
+      "message": "未發現系統瓶頸分析，應識別潛在的效能瓶頸與單點故障，並說明如何緩解"
+    },
+    {
+      "id": "consistency",
+      "name": "一致性討論",
+      "pattern": "一致性|consistency|eventual|strong|CAP|ACID|BASE|複製|replication",
+      "triggerWhenFound": false,
+      "severity": "info",
+      "message": "未見資料一致性討論，分散式系統設計應說明 CAP 取捨與資料一致性策略"
+    }
+  ],
+  "evaluationPrompt": "你是一個資深的系統架構師，請評論以下系統設計文件。請用繁體中文分析：\n1. 架構設計是否合理\n2. 是否有考慮規模擴展\n3. 潛在的效能瓶頸或單點故障\n4. 安全性考量是否充分\n5. 缺少哪些關鍵設計面向\n6. 改善建議\n\n文件內容：\n"
+}
