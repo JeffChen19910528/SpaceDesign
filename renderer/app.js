@@ -238,7 +238,7 @@ async function evaluate() {
     return
   }
 
-  const result = evaluateWithRules(text, rules)
+  const result = Engine.evaluateWithRules(text, rules)
   renderResults(result)
 
   resultsLoading.classList.add('hidden')
@@ -252,37 +252,6 @@ async function evaluate() {
     aiLoading.classList.add('hidden')
     aiContent.textContent = aiText
   }
-}
-
-// ── Rule-based evaluation ──────────────────────────────
-function evaluateWithRules(text, rules) {
-  const found = []
-  const missing = []
-  let score = 0
-  let maxScore = 0
-
-  rules.sections.forEach(section => {
-    maxScore += section.weight
-    const matched = section.keywords.some(kw => new RegExp(kw, 'i').test(text))
-    if (matched) {
-      score += section.weight
-      found.push(section)
-    } else {
-      missing.push(section)
-    }
-  })
-
-  const warnings = []
-  rules.qualityChecks?.forEach(check => {
-    const regex = new RegExp(check.pattern, 'gi')
-    const hasMatch = regex.test(text)
-    if ((check.triggerWhenFound && hasMatch) || (!check.triggerWhenFound && !hasMatch)) {
-      warnings.push(check)
-    }
-  })
-
-  const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0
-  return { found, missing, warnings, score, maxScore, percentage }
 }
 
 // ── Render ─────────────────────────────────────────────
@@ -438,7 +407,8 @@ async function generateAIScenario() {
 
   try {
     const text   = await callLocalModel('', prompt)
-    const parsed = parseAIScenario(text)
+    const locale = window.LOCALES[currentLocale] || window.LOCALES['zh-TW']
+    const parsed = Engine.parseAIScenario(text, locale.ai_parse, t('scenario_ai_title'))
     if (parsed) {
       currentScenario = parsed
       renderScenario(parsed)
@@ -446,32 +416,6 @@ async function generateAIScenario() {
   } finally {
     scenarioGenLoading.classList.add('hidden')
     scenarioAiBtn.disabled = false
-  }
-}
-
-function parseAIScenario(text) {
-  const locale = window.LOCALES[currentLocale] || window.LOCALES['zh-TW']
-  const p = locale.ai_parse
-  try {
-    const titleMatch    = text.match(p.title)
-    const diffMatch     = text.match(p.diff)
-    const scenarioMatch = text.match(p.scenario)
-    const reqsMatch     = text.match(p.reqs)
-    const hintsMatch    = text.match(p.hints)
-    const parseList     = str => str
-      ? str.split('\n').map(l => l.replace(/^[-•*]\s*/, '').trim()).filter(l => l.length > 0)
-      : []
-    return {
-      id: `ai-${Date.now()}`,
-      _lang: currentLocale,
-      title: titleMatch?.[1]?.trim() || t('scenario_ai_title'),
-      difficulty: p.diffMap[diffMatch?.[1]?.trim()] || 2,
-      scenario: scenarioMatch?.[1]?.trim() || text.substring(0, 300),
-      requirements: parseList(reqsMatch?.[1]),
-      hints: parseList(hintsMatch?.[1])
-    }
-  } catch {
-    return null
   }
 }
 
