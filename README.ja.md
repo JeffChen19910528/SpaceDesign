@@ -216,17 +216,23 @@ SpaceDesign/
 ├── main.js              # Electron メインプロセス
 ├── preload.js           # セキュアブリッジ層（contextBridge）
 ├── package.json
+├── jest.config.js       # Jest テスト設定
+├── lib/
+│   └── engine.js        # コア評価ロジック（UMD — app.js とテストで共有）
 ├── rules/
 │   ├── srs.json         # SRS 評価ルール
 │   ├── ai-skill.json    # AI Skill 評価ルール
 │   └── system-design.json  # システム設計評価ルール
 ├── scenarios/
 │   └── scenarios.json   # シナリオライブラリ（129 問・3 言語対応）
+├── tests/
+│   ├── unit/            # ユニットテスト（evaluateWithRules・parseAIScenario）
+│   └── integration/     # 統合テスト（rules・scenarios・IPC ハンドラー）
 └── renderer/
     ├── index.html       # メイン UI
     ├── style.css        # ダークテーマスタイル
     ├── locales.js       # UI 文字列（zh-TW / en / ja）
-    └── app.js           # フロントエンドロジック・評価エンジン・i18n
+    └── app.js           # フロントエンドロジック・シナリオパネル（評価は lib/engine.js に委譲）
 ```
 
 ---

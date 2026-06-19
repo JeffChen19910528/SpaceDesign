@@ -215,16 +215,22 @@ SpaceDesign/
 ├── main.js              # Electron 主程序
 ├── preload.js           # 安全橋接層（contextBridge）
 ├── package.json
+├── jest.config.js       # Jest 測試設定
+├── lib/
+│   └── engine.js        # 核心評估邏輯（UMD，供 app.js 與測試共用）
 ├── rules/
 │   ├── srs.json         # SRS 評分規則
 │   ├── ai-skill.json    # AI Skill 評分規則
 │   └── system-design.json  # 系統設計評分規則
 ├── scenarios/
 │   └── scenarios.json   # 情境練習題庫（129 道內建題目）
+├── tests/
+│   ├── unit/            # 單元測試（evaluateWithRules、parseAIScenario）
+│   └── integration/     # 整合測試（rules、scenarios、IPC handler）
 └── renderer/
     ├── index.html       # 主介面
     ├── style.css        # 深色主題樣式
-    └── app.js           # 前端邏輯、評論引擎、情境面板
+    └── app.js           # 前端邏輯、情境面板（評估邏輯委派給 lib/engine.js）
 ```
 
 ---

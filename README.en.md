@@ -216,17 +216,23 @@ SpaceDesign/
 ├── main.js              # Electron main process
 ├── preload.js           # Secure bridge layer (contextBridge)
 ├── package.json
+├── jest.config.js       # Jest test configuration
+├── lib/
+│   └── engine.js        # Core evaluation logic (UMD — shared by app.js and tests)
 ├── rules/
 │   ├── srs.json         # SRS evaluation rules
 │   ├── ai-skill.json    # AI Skill evaluation rules
 │   └── system-design.json  # System Design evaluation rules
 ├── scenarios/
 │   └── scenarios.json   # Scenario library (129 built-in, trilingual)
+├── tests/
+│   ├── unit/            # Unit tests (evaluateWithRules, parseAIScenario)
+│   └── integration/     # Integration tests (rules, scenarios, IPC handlers)
 └── renderer/
     ├── index.html       # Main UI
     ├── style.css        # Dark theme styles
     ├── locales.js       # UI strings (zh-TW / en / ja)
-    └── app.js           # Frontend logic, evaluation engine, i18n
+    └── app.js           # Frontend logic, scenario panel (evaluation delegated to lib/engine.js)
 ```
 
 ---
