@@ -238,3 +238,47 @@ SpaceDesign/
 | `test-srs.md` | 有缺失章節與品質問題的 SRS 範例 |
 | `test-ai-skill.md` | 缺少錯誤處理和邊界情況的 AI Skill 範例 |
 | `test-system-design.md` | 缺少規模估算和取捨說明的系統設計範例 |
+
+---
+
+## 自動化測試
+
+本專案使用 **Jest** 進行自動化測試，共 **137 個測試**，涵蓋單元測試與整合測試。
+
+### 執行測試
+
+```bash
+# 執行所有測試
+npm test
+
+# 僅執行單元測試
+npm run test:unit
+
+# 僅執行整合測試
+npm run test:integration
+```
+
+### 測試結構
+
+```
+lib/
+└── engine.js                      # 可測試的純函數模組（evaluateWithRules、parseAIScenario）
+tests/
+├── unit/
+│   ├── evaluateWithRules.test.js  # 評分引擎單元測試（19 個測試）
+│   └── parseAIScenario.test.js    # AI 情境解析單元測試（19 個測試）
+└── integration/
+    ├── rules.test.js              # 規則 JSON 結構整合測試（47 個測試）
+    ├── scenarios.test.js          # 情境題庫整合測試（34 個測試）
+    └── ipcHandlers.test.js        # IPC handler 檔案 I/O 整合測試（18 個測試）
+```
+
+### 測試涵蓋範圍
+
+| 測試類型 | 測試目標 | 涵蓋內容 |
+|---------|---------|---------|
+| 單元 | `evaluateWithRules` | Section 關鍵字偵測、計分與百分比計算、qualityChecks 雙向觸發邏輯 |
+| 單元 | `parseAIScenario` | 三語言（zh-TW / en / ja）解析、難度映射、列表解析、fallback 行為 |
+| 整合 | `rules/*.json` | 三份規則 JSON 的欄位結構、型別、正則合法性、maxScore 總和、與引擎連動 |
+| 整合 | `scenarios/scenarios.json` | 129 題的數量、ID 唯一性、三語言必填欄位、需求/提示數量下限 |
+| 整合 | IPC 檔案 I/O | 規則與情境檔案讀取、設定檔儲存與讀取的 roundtrip |

@@ -240,3 +240,47 @@ The `test-samples/` directory contains three intentionally incomplete documents 
 | `test-srs.md` | SRS sample with missing sections and quality issues |
 | `test-ai-skill.md` | AI Skill sample missing error handling and edge cases |
 | `test-system-design.md` | System design sample missing scale estimates and tradeoffs |
+
+---
+
+## Automated Tests
+
+This project uses **Jest** for automated testing — **137 tests** in total, covering unit tests and integration tests.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Unit tests only
+npm run test:unit
+
+# Integration tests only
+npm run test:integration
+```
+
+### Test Structure
+
+```
+lib/
+└── engine.js                      # Testable pure-function module (evaluateWithRules, parseAIScenario)
+tests/
+├── unit/
+│   ├── evaluateWithRules.test.js  # Evaluation engine unit tests (19 tests)
+│   └── parseAIScenario.test.js    # AI scenario parsing unit tests (19 tests)
+└── integration/
+    ├── rules.test.js              # Rules JSON structure integration tests (47 tests)
+    ├── scenarios.test.js          # Scenario library integration tests (34 tests)
+    └── ipcHandlers.test.js        # IPC handler file I/O integration tests (18 tests)
+```
+
+### Test Coverage
+
+| Type | Target | What's Covered |
+|------|--------|----------------|
+| Unit | `evaluateWithRules` | Section keyword detection, score & percentage calculation, qualityChecks bidirectional trigger logic |
+| Unit | `parseAIScenario` | Trilingual parsing (zh-TW / en / ja), difficulty mapping, list parsing, fallback behavior |
+| Integration | `rules/*.json` | Field structure, types, valid regex patterns, maxScore sum, engine integration |
+| Integration | `scenarios/scenarios.json` | 129-scenario count, unique IDs, trilingual required fields, requirements/hints minimums |
+| Integration | IPC file I/O | Rules and scenarios file reads, settings save/load roundtrip |

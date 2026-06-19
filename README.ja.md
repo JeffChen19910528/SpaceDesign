@@ -240,3 +240,47 @@ SpaceDesign/
 | `test-srs.md` | セクションの欠如と品質問題のある SRS サンプル |
 | `test-ai-skill.md` | エラー処理とエッジケースが不足している AI Skill サンプル |
 | `test-system-design.md` | 規模推定とトレードオフが不足しているシステム設計サンプル |
+
+---
+
+## 自動テスト
+
+本プロジェクトは **Jest** を使用した自動テストを備えています。**137 個のテスト**で、ユニットテストと統合テストを網羅しています。
+
+### テストの実行
+
+```bash
+# すべてのテストを実行
+npm test
+
+# ユニットテストのみ
+npm run test:unit
+
+# 統合テストのみ
+npm run test:integration
+```
+
+### テスト構成
+
+```
+lib/
+└── engine.js                      # テスト可能な純粋関数モジュール（evaluateWithRules、parseAIScenario）
+tests/
+├── unit/
+│   ├── evaluateWithRules.test.js  # 評価エンジンのユニットテスト（19 件）
+│   └── parseAIScenario.test.js    # AI シナリオ解析のユニットテスト（19 件）
+└── integration/
+    ├── rules.test.js              # ルール JSON 構造の統合テスト（47 件）
+    ├── scenarios.test.js          # シナリオライブラリの統合テスト（34 件）
+    └── ipcHandlers.test.js        # IPC ハンドラーのファイル I/O 統合テスト（18 件）
+```
+
+### テストカバレッジ
+
+| 種別 | テスト対象 | カバー内容 |
+|------|-----------|-----------|
+| ユニット | `evaluateWithRules` | セクションキーワード検出・スコア/パーセンテージ計算・qualityChecks の双方向トリガーロジック |
+| ユニット | `parseAIScenario` | 三言語（zh-TW / en / ja）解析・難易度マッピング・リスト解析・フォールバック動作 |
+| 統合 | `rules/*.json` | フィールド構造・型・正規表現の正当性・maxScore 合計・評価エンジンとの連動 |
+| 統合 | `scenarios/scenarios.json` | 129 問の数量・ID 一意性・三言語必須フィールド・要件/ヒントの最低数 |
+| 統合 | IPC ファイル I/O | ルール・シナリオファイルの読み取り・設定の保存と読み込みのラウンドトリップ |
