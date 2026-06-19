@@ -88,7 +88,7 @@ try {
   console.log('JSON 解析成功\n')
 
   const categories = ['srs', 'ai-skill', 'system-design']
-  const expectedCount = 23
+  const expectedCount = 43
   const idSets = {}
 
   for (const category of categories) {

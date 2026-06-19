@@ -11,7 +11,7 @@ An Electron desktop app for practicing technical document writing — SRS specif
 ## Features
 
 - **Three document types**: SRS Specification, AI Skill, System Design — each with its own evaluation ruleset
-- **Scenario practice library**: 23 scenarios per document type, covering Beginner / Intermediate / Advanced difficulty
+- **Scenario practice library**: 43 scenarios per document type, covering Beginner / Intermediate / Advanced difficulty
 - **AI scenario generation**: Enable Ollama to generate brand-new scenario questions on demand
 - **Rule-based evaluation**: Automatically checks for required sections and flags quality issues (vague language, missing metrics, etc.)
 - **Score ring**: Visualizes completeness (0–100) with a breakdown of found / missing / warnings
@@ -128,9 +128,9 @@ The right panel shows:
 
 ## Scenario Library
 
-Each document type includes **23 built-in scenarios** (3 original + 20 new real-world scenarios) across three difficulty levels:
+Each document type includes **43 built-in scenarios** (3 original + 40 new real-world scenarios) across three difficulty levels:
 
-### SRS Specification (23 scenarios)
+### SRS Specification (43 scenarios)
 
 | Difficulty | Example Scenarios |
 |------------|------------------|
@@ -138,7 +138,7 @@ Each document type includes **23 built-in scenarios** (3 original + 20 new real-
 | ★★☆ | Food Delivery Order Module, Multi-Platform Inventory Management, Live Class Platform… |
 | ★★★ | Employee Leave & Attendance System, Financial Reconciliation, Cross-Border E-Commerce Compliance… |
 
-### AI Skill (23 scenarios)
+### AI Skill (43 scenarios)
 
 | Difficulty | Example Scenarios |
 |------------|------------------|
@@ -146,7 +146,7 @@ Each document type includes **23 built-in scenarios** (3 original + 20 new real-
 | ★★☆ | Smart Contract Review, Brand Sentiment Monitoring, SEO Content Advisor… |
 | ★★★ | Multi-Agent Data Analysis, E-Commerce Search Re-ranking, Real-Time Fraud Detection… |
 
-### System Design (23 scenarios)
+### System Design (43 scenarios)
 
 | Difficulty | Example Scenarios |
 |------------|------------------|
@@ -221,7 +221,7 @@ SpaceDesign/
 │   ├── ai-skill.json    # AI Skill evaluation rules
 │   └── system-design.json  # System Design evaluation rules
 ├── scenarios/
-│   └── scenarios.json   # Scenario library (69 built-in, trilingual)
+│   └── scenarios.json   # Scenario library (129 built-in, trilingual)
 └── renderer/
     ├── index.html       # Main UI
     ├── style.css        # Dark theme styles
