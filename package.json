@@ -4,7 +4,8 @@
   "description": "系統設計文件練習工具",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "validate": "node validate-scenarios.js"
   },
   "devDependencies": {
     "electron": "^29.0.0"

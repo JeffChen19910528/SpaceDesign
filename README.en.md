@@ -11,7 +11,7 @@ An Electron desktop app for practicing technical document writing — SRS specif
 ## Features
 
 - **Three document types**: SRS Specification, AI Skill, System Design — each with its own evaluation ruleset
-- **Scenario practice library**: 3 scenarios per document type, covering Beginner / Intermediate / Advanced difficulty
+- **Scenario practice library**: 23 scenarios per document type, covering Beginner / Intermediate / Advanced difficulty
 - **AI scenario generation**: Enable Ollama to generate brand-new scenario questions on demand
 - **Rule-based evaluation**: Automatically checks for required sections and flags quality issues (vague language, missing metrics, etc.)
 - **Score ring**: Visualizes completeness (0–100) with a breakdown of found / missing / warnings
@@ -128,31 +128,31 @@ The right panel shows:
 
 ## Scenario Library
 
-Each document type includes 3 built-in scenarios across three difficulty levels:
+Each document type includes **23 built-in scenarios** (3 original + 20 new real-world scenarios) across three difficulty levels:
 
-### SRS Specification
+### SRS Specification (23 scenarios)
 
-| Difficulty | Scenario | Focus Areas |
-|------------|----------|-------------|
-| ★☆☆ | Online Bookstore System | Basic CRUD, multi-role, order flow |
-| ★★☆ | Food Delivery Order Module | State machine, real-time push, refund compensation |
-| ★★★ | Employee Leave & Attendance System | Complex business rules, multi-tier approval, external API integration |
+| Difficulty | Example Scenarios |
+|------------|------------------|
+| ★☆☆ | Online Bookstore, E-commerce Product Reviews, HR Employee Onboarding… |
+| ★★☆ | Food Delivery Order Module, Multi-Platform Inventory Management, Live Class Platform… |
+| ★★★ | Employee Leave & Attendance System, Financial Reconciliation, Cross-Border E-Commerce Compliance… |
 
-### AI Skill
+### AI Skill (23 scenarios)
 
-| Difficulty | Scenario | Focus Areas |
-|------------|----------|-------------|
-| ★☆☆ | Customer Service Chatbot | RAG, confidence score, multi-turn dialogue |
-| ★★☆ | Smart Contract Review Assistant | Document pipeline, risk classification, feedback loop |
-| ★★★ | Multi-Agent Data Analysis System | NL2SQL, multi-agent coordination, security model |
+| Difficulty | Example Scenarios |
+|------------|------------------|
+| ★☆☆ | Customer Service Chatbot, Image Content Auto-Tagging, Enterprise Email Routing… |
+| ★★☆ | Smart Contract Review, Brand Sentiment Monitoring, SEO Content Advisor… |
+| ★★★ | Multi-Agent Data Analysis, E-Commerce Search Re-ranking, Real-Time Fraud Detection… |
 
-### System Design
+### System Design (23 scenarios)
 
-| Difficulty | Scenario | Focus Areas |
-|------------|----------|-------------|
-| ★☆☆ | URL Shortening Service | Short code generation, caching, capacity estimation |
-| ★★☆ | Real-time Chat System | WebSocket, offline messages, media storage |
-| ★★★ | Global Video Streaming Platform | Transcoding pipeline, CDN, DRM |
+| Difficulty | Example Scenarios |
+|------------|------------------|
+| ★☆☆ | URL Shortening Service, Shopping Cart System, Game Leaderboard… |
+| ★★☆ | Real-time Chat System, Push Notification System, Digital Payment Transfer… |
+| ★★★ | Global Video Streaming, Online Collaborative Editing, Flash Sale System… |
 
 ---
 
@@ -221,7 +221,7 @@ SpaceDesign/
 │   ├── ai-skill.json    # AI Skill evaluation rules
 │   └── system-design.json  # System Design evaluation rules
 ├── scenarios/
-│   └── scenarios.json   # Scenario library (9 built-in, trilingual)
+│   └── scenarios.json   # Scenario library (69 built-in, trilingual)
 └── renderer/
     ├── index.html       # Main UI
     ├── style.css        # Dark theme styles
